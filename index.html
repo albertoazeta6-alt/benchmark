@@ -195,10 +195,6 @@
 
 </div>
 <script>
-// ─── DOMANDE OPERATIVE (6 aree, ognuna con coefficienti ore per intervento) ───
-// ore_per_int = ore perse per singolo intervento quando questo processo è manuale (punti 20)
-// ore_fisse   = ore mensili fisse perse indipendentemente dal volume (es. pianificazione)
-// Se parziale (punti 10) si usa metà del valore
 const QUESTIONS = [
   {
     area: "Scadenze normative (DPR 162/99)",
@@ -216,7 +212,6 @@ const QUESTIONS = [
     text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?",
     context: "Ogni emergenza mal gestita costa in media 45–90 minuti di riorganizzazione.",
     ore_fisse: 0, ore_per_int: 0.75, int_fraction: 0.15,
-    // colpisce ~15% degli interventi, ciascuno costa ~45 min di riorganizzazione
     options: [
       { text: "Chiamiamo i tecnici uno a uno per capire chi è più vicino e riorganizziamo a voce o su WhatsApp.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
       { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
@@ -228,7 +223,6 @@ const QUESTIONS = [
     text: "Quando un tecnico rileva un componente usurato, come viene gestito il preventivo di riparazione al cliente?",
     context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.",
     ore_fisse: 0, ore_per_int: 0.42, int_fraction: 0.20,
-    // ~20% degli interventi genera un preventivo; ciascuno richiede ~25 min se manuale
     options: [
       { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
       { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perché i sistemi non si parlano.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
@@ -240,7 +234,6 @@ const QUESTIONS = [
     text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?",
     context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.",
     ore_fisse: 0, ore_per_int: 0.083, int_fraction: 0.40,
-    // ~40% degli interventi usa un ricambio; scalare manualmente = ~5 min a pezzo
     options: [
       { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
       { text: "I tecnici inseriscono il ricambio dall'app, ma non c'è integrazione reale con il magazzino/ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
@@ -252,7 +245,6 @@ const QUESTIONS = [
     text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?",
     context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.",
     ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0,
-    // ogni intervento: ~6 min per controllare/correggere rapportino incompleto in ufficio
     options: [
       { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica (es. 'eseguita manutenzione').", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
       { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
@@ -264,7 +256,6 @@ const QUESTIONS = [
     text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?",
     context: "La reinserzione manuale dei dati è la prima causa di errori in fatturazione.",
     ore_fisse: 0, ore_per_int: 0.133, int_fraction: 1.0,
-    // ogni intervento: ~8 min di reinserimento manuale in ufficio
     options: [
       { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
       { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
@@ -273,30 +264,26 @@ const QUESTIONS = [
   }
 ];
 
-// Domanda profilo: interventi mensili (non punteggio, solo moltiplicatore)
 const INTERVENTI_OPTIONS = [
-  { label: "Meno di 150 interventi/mese",   value: 90  },
-  { label: "Tra 150 e 450 interventi/mese", value: 300 },
-  { label: "Tra 450 e 900 interventi/mese", value: 675 },
-  { label: "Più di 900 interventi/mese",    value: 1100 }
+  { label: "Fino a 50 interventi/mese",     value: 50  },
+  { label: "Tra 50 e 100 interventi/mese",  value: 100 },
+  { label: "Oltre 100 interventi/mese",     value: 150 }
 ];
 
-// Domanda profilo: numero tecnici (solo profilazione commerciale)
 const TECNICI_OPTIONS = [
-  { label: "Fino a 5 tecnici",  value: 3  },
-  { label: "Da 6 a 10 tecnici", value: 8  },
+  { label: "Fino a 5 tecnici",  value: 5  },
+  { label: "Da 6 a 10 tecnici", value: 10 },
   { label: "Oltre 15 tecnici",  value: 20 }
 ];
 
-// Stato
 let currentQ    = 0;
 let answers     = new Array(QUESTIONS.length).fill(null);
 let interventi  = null;
 let tecnici     = null;
-let tecniciExact    = null;  // valore numerico preciso se inserito
-let interventiExact = null;  // valore numerico preciso se inserito
+let tecniciExact    = null;
+let interventiExact = null;
 
-const TOTAL_STEPS = 2 + QUESTIONS.length; // 2 profilazione + 6 operative
+const TOTAL_STEPS = 2 + QUESTIONS.length;
 
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -382,7 +369,6 @@ function renderQuestion() {
         </div>
       </div>`;
   } else {
-    // Domanda operativa
     const qi = currentQ - 2;
     const q = QUESTIONS[qi];
     const selected = answers[qi];
@@ -413,7 +399,6 @@ function setTecniciExact(val) {
     if (tecniciExact <= 5) tecnici = 0;
     else if (tecniciExact <= 10) tecnici = 1;
     else tecnici = 2;
-    // aggiorna highlight fascia senza re-render completo
     document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
       el.classList.toggle('selected', i === tecnici);
     });
@@ -426,10 +411,9 @@ function setInterventiExact(val) {
   const n = parseInt(val);
   interventiExact = (!isNaN(n) && n > 0) ? n : null;
   if (interventiExact !== null) {
-    if (interventiExact < 150) interventi = 0;
-    else if (interventiExact < 450) interventi = 1;
-    else if (interventiExact < 900) interventi = 2;
-    else interventi = 3;
+    if (interventiExact <= 50) interventi = 0;
+    else if (interventiExact <= 100) interventi = 1;
+    else interventi = 2;
     document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
       el.classList.toggle('selected', i === interventi);
     });
@@ -489,11 +473,6 @@ function calcScore() {
   }, 0);
 }
 
-// ─── CALCOLO ORE PERSE ───────────────────────────────────────────────────────
-// Per ogni area:
-//   ore_area = ore_fisse * moltiplicatore + (int_per_mese * int_fraction * ore_per_int) * moltiplicatore
-//   moltiplicatore: punti=20 → 1.0 | punti=10 → 0.5 | punti=0 → 0
-// Risultato = totale ore/mese sull'intera struttura + ore/mese per tecnico
 function calcOre() {
   const intPerMese = interventiExact !== null ? interventiExact :
                      (interventi !== null ? INTERVENTI_OPTIONS[interventi].value : 100);
@@ -521,7 +500,6 @@ function showResult() {
   const isCritical = score >= 30;
   const { oreTotali, orePerTecnico, dettaglio, intPerMese, nTecnici } = calcOre();
 
-  // Band
   document.getElementById('result-band-wrap').innerHTML = isCritical ? `
     <div class="result-band critical">
       <p class="result-label">⚠ Fascia critica</p>
@@ -536,7 +514,6 @@ function showResult() {
     </div>
   `;
 
-  // Ore card (solo se ci sono ore perse)
   if (oreTotali > 0) {
     const dettaglioRows = dettaglio
       .sort((a, b) => b.ore - a.ore)
@@ -545,7 +522,7 @@ function showResult() {
 
     document.getElementById('ore-card-wrap').innerHTML = `
       <div class="ore-card">
-        <p class="ore-card-title">Stima ore perse ogni mese</p>
+        <p class="ore-card-title">Stima ore perse</p>
         <div style="display:flex;gap:10px;margin-bottom:16px;">
           <div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;">
             <span style="font-size:20px;font-weight:700;color:var(--accent);">${nTecnici}</span>
@@ -565,6 +542,14 @@ function showResult() {
             <span class="ore-stat-num">${orePerTecnico}</span>
             <span class="ore-stat-label">ore/mese<br>per tecnico</span>
           </div>
+          <div class="ore-stat" style="background:var(--danger-light);">
+            <span class="ore-stat-num" style="color:var(--danger);">${oreTotali * 12}</span>
+            <span class="ore-stat-label">ore totali/<b>anno</b><br>sull'intera struttura</span>
+          </div>
+          <div class="ore-stat" style="background:var(--danger-light);">
+            <span class="ore-stat-num" style="color:var(--danger);">${orePerTecnico * 12}</span>
+            <span class="ore-stat-label">ore/<b>anno</b><br>per tecnico</span>
+          </div>
         </div>
         <div class="ore-detail">
           <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-hint);margin-bottom:8px;">Per area</div>
@@ -576,7 +561,6 @@ function showResult() {
     document.getElementById('ore-card-wrap').innerHTML = '';
   }
 
-  // Breakdown
   const breakdownRows = QUESTIONS.map((q, i) => {
     const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
     const pillClass = pts === 20 ? 'pill-20' : pts === 10 ? 'pill-10' : 'pill-0';
@@ -585,7 +569,6 @@ function showResult() {
   }).join('');
   document.getElementById('breakdown-wrap').innerHTML = `<p class="breakdown-title">Dettaglio per area</p>${breakdownRows}`;
 
-  // CTA
   document.getElementById('cta-wrap').innerHTML = isCritical ? `
     <h2>Vuoi capire quanto puoi recuperare?</h2>
     <p>Confrontiamo il tuo score con i benchmark del settore e ti mostriamo in 15 minuti come altri service ascensoristici hanno ridotto il lavoro manuale del 60%.</p>
@@ -612,12 +595,12 @@ function submitLead() {
   const { oreTotali, orePerTecnico } = calcOre();
   const payload = {
     name, email, company, score, oreTotali, orePerTecnico,
+    oreTotaliAnno: oreTotali * 12, orePerTecnicoAnno: orePerTecnico * 12,
     interventi: interventi !== null ? INTERVENTI_OPTIONS[interventi].label : null,
     tecnici: tecnici !== null ? TECNICI_OPTIONS[tecnici].label : null,
     answers: answers.map((a, i) => ({ area: QUESTIONS[i].area, points: a !== null ? QUESTIONS[i].options[a].points : null }))
   };
   console.log('Lead payload:', JSON.stringify(payload));
-  // fetch('/api/lead', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
 
   showScreen('screen-thankyou');
 }
