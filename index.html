@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Benchmark Manutenzione — Service Ascensoristico</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #F7F6F3;
+    --surface: #FFFFFF;
+    --surface2: #F0EEE9;
+    --text: #1A1A18;
+    --text-muted: #6B6A65;
+    --text-hint: #9C9B96;
+    --accent: #1A4A8A;
+    --accent-light: #E6EFF8;
+    --accent-mid: #2E6CB8;
+    --danger: #C0392B;
+    --danger-light: #FDECEA;
+    --success: #1A6B4A;
+    --success-light: #E6F5EF;
+    --warning: #8A5A00;
+    --warning-light: #FFF8E6;
+    --border: rgba(26,26,24,0.1);
+    --border-strong: rgba(26,26,24,0.2);
+    --radius: 10px;
+    --radius-lg: 16px;
+    --transition: 180ms ease;
+  }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; font-size: 16px; }
+  .shell { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+  .brand { display: flex; align-items: center; gap: 10px; margin-bottom: 2.5rem; }
+  .brand-icon { width: 36px; height: 36px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .brand-icon svg { display: block; }
+  .brand-name { font-size: 13px; font-weight: 600; letter-spacing: 0.04em; color: var(--accent); text-transform: uppercase; }
+  .screen { display: none; }
+  .screen.active { display: block; }
+  .eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-mid); margin-bottom: 0.75rem; }
+  h1 { font-size: 28px; font-weight: 700; line-height: 1.25; color: var(--text); margin-bottom: 1rem; }
+  .subtitle { font-size: 16px; color: var(--text-muted); line-height: 1.65; margin-bottom: 2rem; }
+  .stats-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 2rem; }
+  .stat-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius); padding: 14px 12px; text-align: center; }
+  .stat-num { font-size: 22px; font-weight: 700; color: var(--accent); display: block; }
+  .stat-label { font-size: 11px; color: var(--text-muted); display: block; margin-top: 2px; line-height: 1.3; }
+  .progress-bar-wrap { background: var(--surface2); border-radius: 999px; height: 4px; margin-bottom: 0.5rem; overflow: hidden; }
+  .progress-bar-fill { background: var(--accent); height: 100%; border-radius: 999px; transition: width 300ms ease; width: 0%; }
+  .progress-label { font-size: 12px; color: var(--text-hint); margin-bottom: 2rem; }
+  .q-number { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 0.5rem; }
+  .q-text { font-size: 19px; font-weight: 600; line-height: 1.35; color: var(--text); margin-bottom: 1.5rem; }
+  .q-context { font-size: 13px; color: var(--text-muted); background: var(--accent-light); border-left: 3px solid var(--accent-mid); border-radius: 0 6px 6px 0; padding: 8px 12px; margin-bottom: 1.5rem; line-height: 1.5; }
+  .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
+  .option { background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; transition: border-color var(--transition), background var(--transition); text-align: left; width: 100%; }
+  .option:hover { border-color: var(--accent-mid); background: var(--accent-light); }
+  .option.selected { border-color: var(--accent); background: var(--accent-light); }
+  .option-dot { width: 18px; height: 18px; min-width: 18px; border-radius: 50%; border: 1.5px solid var(--border-strong); margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: border-color var(--transition), background var(--transition); }
+  .option.selected .option-dot { border-color: var(--accent); background: var(--accent); }
+  .option.selected .option-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; display: block; }
+  .option-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+  .option-badge { margin-top: 4px; display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 7px; border-radius: 4px; }
+  .badge-high { background: var(--danger-light); color: var(--danger); }
+  .badge-mid  { background: var(--warning-light); color: var(--warning); }
+  .badge-ok   { background: var(--success-light); color: var(--success); }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 28px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: opacity var(--transition), transform var(--transition); text-decoration: none; font-family: inherit; }
+  .btn:active { transform: scale(0.98); }
+  .btn-primary { background: var(--accent); color: white; }
+  .btn-primary:hover { opacity: 0.88; }
+  .btn-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+  .btn-outline:hover { background: var(--accent-light); }
+  .btn-ghost { background: transparent; color: var(--text-muted); font-size: 13px; padding: 8px 0; }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-full { width: 100%; }
+  .btn-calendly { background: var(--accent); color: white; font-size: 16px; padding: 16px 32px; }
+  .btn-calendly:hover { opacity: 0.88; }
+  .nav-row { display: flex; justify-content: flex-start; align-items: center; }
+  .result-band { border-radius: var(--radius-lg); padding: 28px 24px; margin-bottom: 1.5rem; }
+  .result-band.critical { background: var(--danger-light); border: 1px solid rgba(192,57,43,0.2); }
+  .result-band.virtuous { background: var(--success-light); border: 1px solid rgba(26,107,74,0.2); }
+  .result-label { font-size: 11px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .critical .result-label { color: var(--danger); }
+  .virtuous .result-label { color: var(--success); }
+  .result-score { font-size: 52px; font-weight: 800; line-height: 1; margin-bottom: 8px; }
+  .critical .result-score { color: var(--danger); }
+  .virtuous .result-score { color: var(--success); }
+  .result-desc { font-size: 15px; line-height: 1.6; color: var(--text); }
+
+  /* ORE PERSE CARD */
+  .ore-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 1.5rem; }
+  .ore-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 14px; }
+  .ore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .ore-stat { background: var(--surface2); border-radius: var(--radius); padding: 14px; }
+  .ore-stat-num { font-size: 28px; font-weight: 800; color: var(--accent); display: block; line-height: 1; }
+  .ore-stat-label { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; line-height: 1.3; }
+  .ore-detail { font-size: 13px; color: var(--text-muted); line-height: 1.7; border-top: 0.5px solid var(--border); padding-top: 14px; }
+  .ore-detail-row { display: flex; justify-content: space-between; padding: 4px 0; }
+  .ore-detail-row span:last-child { font-weight: 600; color: var(--text); }
+
+  .breakdown { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 1.5rem; }
+  .breakdown-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 14px; }
+  .breakdown-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
+  .breakdown-item:last-child { border-bottom: none; }
+  .breakdown-area { flex: 1; color: var(--text-muted); }
+  .breakdown-pill { padding: 3px 9px; border-radius: 20px; font-size: 11px; font-weight: 600; }
+  .pill-20 { background: var(--danger-light); color: var(--danger); }
+  .pill-10 { background: var(--warning-light); color: var(--warning); }
+  .pill-0  { background: var(--success-light); color: var(--success); }
+  .cta-block { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 1.5rem; }
+  .cta-block h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .cta-block p { font-size: 14px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
+  .form-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
+  .form-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
+  .field { margin-bottom: 14px; }
+  .field label { display: block; font-size: 13px; font-weight: 500; color: var(--text-muted); margin-bottom: 5px; }
+  .field input { width: 100%; padding: 11px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius); font-size: 15px; background: var(--surface); color: var(--text); outline: none; transition: border-color var(--transition); font-family: inherit; }
+  .field input:focus { border-color: var(--accent-mid); }
+  .field input::placeholder { color: var(--text-hint); }
+  .privacy { font-size: 11px; color: var(--text-hint); margin-top: 10px; line-height: 1.5; }
+  .ty-icon { width: 56px; height: 56px; background: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+  .ty-icon svg { display: block; }
+  .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
+  @media (max-width: 480px) { h1 { font-size: 23px; } .result-score { font-size: 42px; } .ore-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <div class="brand">
+    <div class="brand-icon">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <rect x="3" y="2" width="6" height="16" rx="1.5" fill="white" opacity="0.9"/>
+        <rect x="11" y="6" width="6" height="12" rx="1.5" fill="white" opacity="0.6"/>
+      </svg>
+    </div>
+    <span class="brand-name">Benchmark Manutenzione</span>
+  </div>
+
+  <!-- WELCOME -->
+  <div id="screen-welcome" class="screen active">
+    <p class="eyebrow">Test gratuito · 90 secondi</p>
+    <h1>Quanto è efficiente il tuo servizio di assistenza?</h1>
+    <p class="subtitle">8 domande su tecnici, scadenze normative, emergenze, ricambi e procedure di sicurezza. Scopri subito dove stai perdendo ore ogni mese.</p>
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-num">8</span><span class="stat-label">domande</span></div>
+      <div class="stat-card"><span class="stat-num">90s</span><span class="stat-label">tempo medio</span></div>
+      <div class="stat-card"><span class="stat-num">100%</span><span class="stat-label">gratuito</span></div>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="startQuiz()">
+      Inizia il test
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    <p class="progress-label" id="progress-label"></p>
+    <div id="question-wrap"></div>
+    <div class="nav-row">
+      <button class="btn btn-ghost" id="btn-back" onclick="prevQuestion()">← Indietro</button>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="screen-result" class="screen">
+    <div id="result-band-wrap"></div>
+    <div id="ore-card-wrap"></div>
+    <div class="breakdown" id="breakdown-wrap"></div>
+    <div class="cta-block" id="cta-wrap"></div>
+  </div>
+
+  <!-- LEAD FORM -->
+  <div id="screen-lead" class="screen">
+    <p class="form-title">Ricevi il report completo</p>
+    <p class="form-sub">Inserisci i tuoi dati per ricevere la stima dettagliata delle ore perse e un confronto con i benchmark di settore.</p>
+    <div class="field"><label for="lead-name">Nome e cognome</label><input type="text" id="lead-name" placeholder="Mario Rossi" /></div>
+    <div class="field"><label for="lead-email">Email aziendale</label><input type="email" id="lead-email" placeholder="mario@tuaazienda.it" /></div>
+    <div class="field"><label for="lead-company">Ragione sociale</label><input type="text" id="lead-company" placeholder="Ascensori Rossi Srl" /></div>
+    <button class="btn btn-primary btn-full" onclick="submitLead()" style="margin-top:8px">Invia e prenota la demo</button>
+    <p class="privacy">Inviando accetti che i tuoi dati vengano trattati per ricevere il report e per contatti commerciali correlati. Nessuno spam.</p>
+    <div class="divider"></div>
+    <button class="btn btn-ghost" onclick="showScreen('screen-result')">← Torna ai risultati</button>
+  </div>
+
+  <!-- THANK YOU -->
+  <div id="screen-thankyou" class="screen">
+    <div class="ty-icon">
+      <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="#1A6B4A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 style="font-size:24px; margin-bottom: 0.5rem;">Ottimo, ci siamo!</h1>
+    <p class="subtitle" style="margin-bottom: 2rem;">Ti abbiamo inviato il report via email. Nel frattempo, prenota una chiamata di 15 minuti con il nostro team per analizzare insieme i risultati.</p>
+    <a href="https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015" target="_blank" rel="noopener" class="btn btn-calendly btn-full">Prenota il tuo slot gratuito →</a>
+    <div class="divider"></div>
+    <p style="font-size:13px; color: var(--text-hint); text-align:center;">Nessun impegno. Solo 15 minuti per capire dove puoi recuperare ore ogni mese.</p>
+  </div>
+
+</div>
+<script>
+// ─── DOMANDE OPERATIVE (6 aree, ognuna con coefficienti ore per intervento) ───
+// ore_per_int = ore perse per singolo intervento quando questo processo è manuale (punti 20)
+// ore_fisse   = ore mensili fisse perse indipendentemente dal volume (es. pianificazione)
+// Se parziale (punti 10) si usa metà del valore
+const QUESTIONS = [
+  {
+    area: "Scadenze normative (DPR 162/99)",
+    text: "Come gestite le scadenze delle manutenzioni periodiche?",
+    context: "Una scadenza mancata espone l'azienda a sanzioni e responsabilità civile.",
+    ore_fisse: 2.5, ore_per_int: 0,
+    options: [
+      { text: "Excel o scadenziari cartacei: la segreteria incrocia i dati a mano e chiama i tecnici per incastrare gli appuntamenti.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "Abbiamo un software, ma la pianificazione e l'invio ai tecnici richiedono passaggi manuali in ufficio.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "Tutto automatizzato: il sistema genera le pianificazioni, le invia all'app del tecnico e l'ufficio monitora in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  },
+  {
+    area: "Gestione delle emergenze",
+    text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?",
+    context: "Ogni emergenza mal gestita costa in media 45–90 minuti di riorganizzazione.",
+    ore_fisse: 0, ore_per_int: 0.75, int_fraction: 0.15,
+    // colpisce ~15% degli interventi, ciascuno costa ~45 min di riorganizzazione
+    options: [
+      { text: "Chiamiamo i tecnici uno a uno per capire chi è più vicino e riorganizziamo a voce o su WhatsApp.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "Inseriamo l'emergenza e il software riassegna l'intervento al tecnico più idoneo, aggiornando l'app istantaneamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  },
+  {
+    area: "Preventivazione riparazioni",
+    text: "Quando un tecnico rileva un componente usurato, come viene gestito il preventivo di riparazione al cliente?",
+    context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.",
+    ore_fisse: 0, ore_per_int: 0.42, int_fraction: 0.20,
+    // ~20% degli interventi genera un preventivo; ciascuno richiede ~25 min se manuale
+    options: [
+      { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perché i sistemi non si parlano.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "La segnalazione del tecnico genera automaticamente una bozza di preventivo in ufficio, pronta in poche ore.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  },
+  {
+    area: "Gestione ricambi e magazzino",
+    text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?",
+    context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.",
+    ore_fisse: 0, ore_per_int: 0.083, int_fraction: 0.40,
+    // ~40% degli interventi usa un ricambio; scalare manualmente = ~5 min a pezzo
+    options: [
+      { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "I tecnici inseriscono il ricambio dall'app, ma non c'è integrazione reale con il magazzino/ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "Tutto integrato: quando il tecnico seleziona il pezzo dal campo, il magazzino si aggiorna automaticamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  },
+  {
+    area: "Checklist e procedure",
+    text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?",
+    context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.",
+    ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0,
+    // ogni intervento: ~6 min per controllare/correggere rapportino incompleto in ufficio
+    options: [
+      { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica (es. 'eseguita manutenzione').", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "Procedure guidate e bloccanti: l'app mostra la checklist specifica per tipo di impianto con foto obbligatorie.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  },
+  {
+    area: "Sincronizzazione rapportini",
+    text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?",
+    context: "La reinserzione manuale dei dati è la prima causa di errori in fatturazione.",
+    ore_fisse: 0, ore_per_int: 0.133, int_fraction: 1.0,
+    // ogni intervento: ~8 min di reinserimento manuale in ufficio
+    options: [
+      { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
+      { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
+      { text: "Sincronizzazione immediata: appena tecnico e cliente firmano, l'ufficio vede il rapportino aggiornato in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
+    ]
+  }
+];
+
+// Domanda profilo: interventi mensili (non punteggio, solo moltiplicatore)
+const INTERVENTI_OPTIONS = [
+  { label: "Meno di 150 interventi/mese",   value: 90  },
+  { label: "Tra 150 e 450 interventi/mese", value: 300 },
+  { label: "Tra 450 e 900 interventi/mese", value: 675 },
+  { label: "Più di 900 interventi/mese",    value: 1100 }
+];
+
+// Domanda profilo: numero tecnici (solo profilazione commerciale)
+const TECNICI_OPTIONS = [
+  { label: "Fino a 5 tecnici",  value: 3  },
+  { label: "Da 6 a 10 tecnici", value: 8  },
+  { label: "Oltre 15 tecnici",  value: 20 }
+];
+
+// Stato
+let currentQ    = 0;
+let answers     = new Array(QUESTIONS.length).fill(null);
+let interventi  = null;
+let tecnici     = null;
+let tecniciExact    = null;  // valore numerico preciso se inserito
+let interventiExact = null;  // valore numerico preciso se inserito
+
+const TOTAL_STEPS = 2 + QUESTIONS.length; // 2 profilazione + 6 operative
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  currentQ = 0;
+  answers = new Array(QUESTIONS.length).fill(null);
+  interventi = null;
+  tecnici = null;
+  tecniciExact = null;
+  interventiExact = null;
+  renderQuestion();
+  showScreen('screen-quiz');
+}
+
+function renderQuestion() {
+  const pct = Math.round((currentQ / TOTAL_STEPS) * 100);
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = `Domanda ${currentQ + 1} di ${TOTAL_STEPS}`;
+  document.getElementById('btn-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+
+  let html = '';
+
+  if (currentQ === 0) {
+    const sel = tecnici;
+    const exVal = tecniciExact !== null ? tecniciExact : '';
+    html = `
+      <p class="q-number">Profilo aziendale</p>
+      <p class="q-text">Quanti tecnici avete attualmente operativi sul campo?</p>
+      <p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p>
+      <div class="options">
+        ${TECNICI_OPTIONS.map((opt, i) => `
+          <button class="option ${sel === i ? 'selected' : ''}" onclick="selectTecnici(${i})">
+            <span class="option-dot"></span>
+            <span class="option-text">${opt.label}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div style="margin-top:-4px;margin-bottom:1.5rem;">
+        <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7"
+            value="${exVal}"
+            style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
+            oninput="setTecniciExact(this.value)" />
+          <span style="font-size:13px;color:var(--text-muted);">tecnici</span>
+          <button id="btn-confirm-tecnici" onclick="confirmTecnici()"
+            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">
+            Conferma →
+          </button>
+        </div>
+      </div>`;
+  } else if (currentQ === 1) {
+    const sel = interventi;
+    const exVal = interventiExact !== null ? interventiExact : '';
+    html = `
+      <p class="q-number">Profilo operativo</p>
+      <p class="q-text">Qual è la media complessiva di interventi che gestite in un mese?</p>
+      <p class="q-context">Considera tutti gli interventi dell'intera struttura: manutenzioni ordinarie, emergenze e verifiche.</p>
+      <div class="options">
+        ${INTERVENTI_OPTIONS.map((opt, i) => `
+          <button class="option ${sel === i ? 'selected' : ''}" onclick="selectInterventi(${i})">
+            <span class="option-dot"></span>
+            <span class="option-text">${opt.label}</span>
+          </button>
+        `).join('')}
+      </div>
+      <div style="margin-top:-4px;margin-bottom:1.5rem;">
+        <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 632"
+            value="${exVal}"
+            style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
+            oninput="setInterventiExact(this.value)" />
+          <span style="font-size:13px;color:var(--text-muted);">interventi/mese</span>
+          <button id="btn-confirm-interventi" onclick="confirmInterventi()"
+            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">
+            Conferma →
+          </button>
+        </div>
+      </div>`;
+  } else {
+    // Domanda operativa
+    const qi = currentQ - 2;
+    const q = QUESTIONS[qi];
+    const selected = answers[qi];
+    html = `
+      <p class="q-number">Area: ${q.area}</p>
+      <p class="q-text">${q.text}</p>
+      <p class="q-context">${q.context}</p>
+      <div class="options">
+        ${q.options.map((opt, i) => `
+          <button class="option ${selected === i ? 'selected' : ''}" onclick="selectOption(${i})">
+            <span class="option-dot"></span>
+            <span class="option-text">
+              ${opt.text}
+              <br><span class="option-badge ${opt.badgeClass}">${opt.badge}</span>
+            </span>
+          </button>
+        `).join('')}
+      </div>`;
+  }
+
+  document.getElementById('question-wrap').innerHTML = html;
+}
+
+function setTecniciExact(val) {
+  const n = parseInt(val);
+  tecniciExact = (!isNaN(n) && n > 0) ? n : null;
+  if (tecniciExact !== null) {
+    if (tecniciExact <= 5) tecnici = 0;
+    else if (tecniciExact <= 10) tecnici = 1;
+    else tecnici = 2;
+    // aggiorna highlight fascia senza re-render completo
+    document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
+      el.classList.toggle('selected', i === tecnici);
+    });
+  }
+  const btn = document.getElementById('btn-confirm-tecnici');
+  if (btn) btn.style.display = tecniciExact !== null ? 'inline-flex' : 'none';
+}
+
+function setInterventiExact(val) {
+  const n = parseInt(val);
+  interventiExact = (!isNaN(n) && n > 0) ? n : null;
+  if (interventiExact !== null) {
+    if (interventiExact < 150) interventi = 0;
+    else if (interventiExact < 450) interventi = 1;
+    else if (interventiExact < 900) interventi = 2;
+    else interventi = 3;
+    document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
+      el.classList.toggle('selected', i === interventi);
+    });
+  }
+  const btn = document.getElementById('btn-confirm-interventi');
+  if (btn) btn.style.display = interventiExact !== null ? 'inline-flex' : 'none';
+}
+
+function confirmTecnici() {
+  if (tecniciExact === null) return;
+  currentQ = 1;
+  renderQuestion();
+}
+
+function confirmInterventi() {
+  if (interventiExact === null) return;
+  currentQ = 2;
+  renderQuestion();
+}
+
+function selectTecnici(i) {
+  tecnici = i;
+  tecniciExact = null;
+  renderQuestion();
+  setTimeout(() => { currentQ = 1; renderQuestion(); }, 380);
+}
+
+function selectInterventi(i) {
+  interventi = i;
+  interventiExact = null;
+  renderQuestion();
+  setTimeout(() => { currentQ = 2; renderQuestion(); }, 380);
+}
+
+function selectOption(i) {
+  const qi = currentQ - 2;
+  answers[qi] = i;
+  renderQuestion();
+  setTimeout(() => {
+    if (currentQ < TOTAL_STEPS - 1) {
+      currentQ++;
+      renderQuestion();
+    } else {
+      showResult();
+    }
+  }, 380);
+}
+
+function prevQuestion() {
+  if (currentQ > 0) { currentQ--; renderQuestion(); }
+}
+
+function calcScore() {
+  return answers.reduce((sum, ans, i) => {
+    if (ans === null) return sum;
+    return sum + QUESTIONS[i].options[ans].points;
+  }, 0);
+}
+
+// ─── CALCOLO ORE PERSE ───────────────────────────────────────────────────────
+// Per ogni area:
+//   ore_area = ore_fisse * moltiplicatore + (int_per_mese * int_fraction * ore_per_int) * moltiplicatore
+//   moltiplicatore: punti=20 → 1.0 | punti=10 → 0.5 | punti=0 → 0
+// Risultato = totale ore/mese sull'intera struttura + ore/mese per tecnico
+function calcOre() {
+  const intPerMese = interventiExact !== null ? interventiExact :
+                     (interventi !== null ? INTERVENTI_OPTIONS[interventi].value : 100);
+  const nTecnici   = tecniciExact !== null ? tecniciExact :
+                     (tecnici !== null ? TECNICI_OPTIONS[tecnici].value : 5);
+
+  let oreTotali = 0;
+  const dettaglio = [];
+
+  QUESTIONS.forEach((q, i) => {
+    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
+    const mult = pts === 20 ? 1.0 : pts === 10 ? 0.5 : 0;
+    const fraction = q.int_fraction !== undefined ? q.int_fraction : 0;
+    const ore = (q.ore_fisse + intPerMese * fraction * q.ore_per_int) * mult;
+    oreTotali += ore;
+    if (ore > 0) dettaglio.push({ area: q.area, ore: ore });
+  });
+
+  const orePerTecnico = nTecnici > 0 ? oreTotali / nTecnici : oreTotali;
+  return { oreTotali: Math.round(oreTotali), orePerTecnico: Math.round(orePerTecnico), dettaglio, intPerMese, nTecnici };
+}
+
+function showResult() {
+  const score = calcScore();
+  const isCritical = score >= 30;
+  const { oreTotali, orePerTecnico, dettaglio, intPerMese, nTecnici } = calcOre();
+
+  // Band
+  document.getElementById('result-band-wrap').innerHTML = isCritical ? `
+    <div class="result-band critical">
+      <p class="result-label">⚠ Fascia critica</p>
+      <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
+      <p class="result-desc">La gestione frammentata di scadenze, emergenze e ricambi sta generando colli di bottiglia significativi su ${intPerMese} interventi al mese con ${nTecnici} tecnici.</p>
+    </div>
+  ` : `
+    <div class="result-band virtuous">
+      <p class="result-label">✓ Fascia virtuosa</p>
+      <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
+      <p class="result-desc">I tuoi processi sul campo e in ufficio sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p>
+    </div>
+  `;
+
+  // Ore card (solo se ci sono ore perse)
+  if (oreTotali > 0) {
+    const dettaglioRows = dettaglio
+      .sort((a, b) => b.ore - a.ore)
+      .map(d => `<div class="ore-detail-row"><span>${d.area}</span><span>~ ${Math.round(d.ore)} h/mese</span></div>`)
+      .join('');
+
+    document.getElementById('ore-card-wrap').innerHTML = `
+      <div class="ore-card">
+        <p class="ore-card-title">Stima ore perse ogni mese</p>
+        <div style="display:flex;gap:10px;margin-bottom:16px;">
+          <div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;font-weight:700;color:var(--accent);">${nTecnici}</span>
+            <span style="font-size:12px;color:var(--text-muted);line-height:1.3;">tecnici<br>operativi</span>
+          </div>
+          <div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;">
+            <span style="font-size:20px;font-weight:700;color:var(--accent);">${intPerMese}</span>
+            <span style="font-size:12px;color:var(--text-muted);line-height:1.3;">interventi<br>medi/mese</span>
+          </div>
+        </div>
+        <div class="ore-grid">
+          <div class="ore-stat">
+            <span class="ore-stat-num">${oreTotali}</span>
+            <span class="ore-stat-label">ore totali/mese<br>sull'intera struttura</span>
+          </div>
+          <div class="ore-stat">
+            <span class="ore-stat-num">${orePerTecnico}</span>
+            <span class="ore-stat-label">ore/mese<br>per tecnico</span>
+          </div>
+        </div>
+        <div class="ore-detail">
+          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-hint);margin-bottom:8px;">Per area</div>
+          ${dettaglioRows}
+        </div>
+      </div>
+    `;
+  } else {
+    document.getElementById('ore-card-wrap').innerHTML = '';
+  }
+
+  // Breakdown
+  const breakdownRows = QUESTIONS.map((q, i) => {
+    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
+    const pillClass = pts === 20 ? 'pill-20' : pts === 10 ? 'pill-10' : 'pill-0';
+    const pillLabel = pts === 20 ? '−20 pt' : pts === 10 ? '−10 pt' : 'ok';
+    return `<div class="breakdown-item"><span class="breakdown-area">${q.area}</span><span class="breakdown-pill ${pillClass}">${pillLabel}</span></div>`;
+  }).join('');
+  document.getElementById('breakdown-wrap').innerHTML = `<p class="breakdown-title">Dettaglio per area</p>${breakdownRows}`;
+
+  // CTA
+  document.getElementById('cta-wrap').innerHTML = isCritical ? `
+    <h2>Vuoi capire quanto puoi recuperare?</h2>
+    <p>Confrontiamo il tuo score con i benchmark del settore e ti mostriamo in 15 minuti come altri service ascensoristici hanno ridotto il lavoro manuale del 60%.</p>
+    <button class="btn btn-primary btn-full" onclick="showScreen('screen-lead')">Prenota un confronto gratuito →</button>
+    <div class="divider"></div>
+    <button class="btn btn-ghost btn-full" onclick="showScreen('screen-lead')">Ricevi il report dettagliato via email</button>
+  ` : `
+    <h2>Vuoi ottimizzare ulteriormente?</h2>
+    <p>Se vorrete integrare questi flussi direttamente nella contabilità del vostro ERP, siamo a disposizione per una chiacchierata.</p>
+    <button class="btn btn-outline btn-full" onclick="showScreen('screen-lead')">Contattaci →</button>
+  `;
+
+  showScreen('screen-result');
+}
+
+function submitLead() {
+  const name    = document.getElementById('lead-name').value.trim();
+  const email   = document.getElementById('lead-email').value.trim();
+  const company = document.getElementById('lead-company').value.trim();
+  if (!name || !email || !company) { alert('Compila tutti i campi per continuare.'); return; }
+  if (!email.includes('@')) { alert('Inserisci un indirizzo email valido.'); return; }
+
+  const score = calcScore();
+  const { oreTotali, orePerTecnico } = calcOre();
+  const payload = {
+    name, email, company, score, oreTotali, orePerTecnico,
+    interventi: interventi !== null ? INTERVENTI_OPTIONS[interventi].label : null,
+    tecnici: tecnici !== null ? TECNICI_OPTIONS[tecnici].label : null,
+    answers: answers.map((a, i) => ({ area: QUESTIONS[i].area, points: a !== null ? QUESTIONS[i].options[a].points : null }))
+  };
+  console.log('Lead payload:', JSON.stringify(payload));
+  // fetch('/api/lead', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(payload) });
+
+  showScreen('screen-thankyou');
+}
+</script>
+</body>
+</html>
