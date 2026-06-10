@@ -4,29 +4,18 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Benchmark Manutenzione — Service Ascensoristico</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --bg: #F7F6F3;
-    --surface: #FFFFFF;
-    --surface2: #F0EEE9;
-    --text: #1A1A18;
-    --text-muted: #6B6A65;
-    --text-hint: #9C9B96;
-    --accent: #1A4A8A;
-    --accent-light: #E6EFF8;
-    --accent-mid: #2E6CB8;
-    --danger: #C0392B;
-    --danger-light: #FDECEA;
-    --success: #1A6B4A;
-    --success-light: #E6F5EF;
-    --warning: #8A5A00;
-    --warning-light: #FFF8E6;
-    --border: rgba(26,26,24,0.1);
-    --border-strong: rgba(26,26,24,0.2);
-    --radius: 10px;
-    --radius-lg: 16px;
-    --transition: 180ms ease;
+    --bg: #F7F6F3; --surface: #FFFFFF; --surface2: #F0EEE9;
+    --text: #1A1A18; --text-muted: #6B6A65; --text-hint: #9C9B96;
+    --accent: #1A4A8A; --accent-light: #E6EFF8; --accent-mid: #2E6CB8;
+    --danger: #C0392B; --danger-light: #FDECEA;
+    --success: #1A6B4A; --success-light: #E6F5EF;
+    --warning: #8A5A00; --warning-light: #FFF8E6;
+    --border: rgba(26,26,24,0.1); --border-strong: rgba(26,26,24,0.2);
+    --radius: 10px; --radius-lg: 16px; --transition: 180ms ease;
   }
   body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; line-height: 1.6; font-size: 16px; }
   .shell { max-width: 640px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
@@ -70,8 +59,6 @@
   .btn-ghost { background: transparent; color: var(--text-muted); font-size: 13px; padding: 8px 0; }
   .btn-ghost:hover { color: var(--text); }
   .btn-full { width: 100%; }
-  .btn-calendly { background: var(--accent); color: white; font-size: 16px; padding: 16px 32px; }
-  .btn-calendly:hover { opacity: 0.88; }
   .nav-row { display: flex; justify-content: flex-start; align-items: center; }
   .result-band { border-radius: var(--radius-lg); padding: 28px 24px; margin-bottom: 1.5rem; }
   .result-band.critical { background: var(--danger-light); border: 1px solid rgba(192,57,43,0.2); }
@@ -83,8 +70,6 @@
   .critical .result-score { color: var(--danger); }
   .virtuous .result-score { color: var(--success); }
   .result-desc { font-size: 15px; line-height: 1.6; color: var(--text); }
-
-  /* ORE PERSE CARD */
   .ore-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 1.5rem; }
   .ore-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 14px; }
   .ore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
@@ -94,7 +79,6 @@
   .ore-detail { font-size: 13px; color: var(--text-muted); line-height: 1.7; border-top: 0.5px solid var(--border); padding-top: 14px; }
   .ore-detail-row { display: flex; justify-content: space-between; padding: 4px 0; }
   .ore-detail-row span:last-child { font-weight: 600; color: var(--text); }
-
   .breakdown { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 1.5rem; }
   .breakdown-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); margin-bottom: 14px; }
   .breakdown-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 0.5px solid var(--border); font-size: 13px; }
@@ -107,6 +91,7 @@
   .cta-block { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 1.5rem; }
   .cta-block h2 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
   .cta-block p { font-size: 14px; color: var(--text-muted); margin-bottom: 18px; line-height: 1.6; }
+  .cta-buttons { display: flex; flex-direction: column; gap: 12px; }
   .form-title { font-size: 20px; font-weight: 700; margin-bottom: 6px; }
   .form-sub { font-size: 14px; color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.5; }
   .field { margin-bottom: 14px; }
@@ -134,7 +119,6 @@
     <span class="brand-name">Benchmark Manutenzione</span>
   </div>
 
-  <!-- WELCOME -->
   <div id="screen-welcome" class="screen active">
     <p class="eyebrow">Test gratuito · 90 secondi</p>
     <h1>Quanto è efficiente il tuo servizio di assistenza?</h1>
@@ -150,7 +134,6 @@
     </button>
   </div>
 
-  <!-- QUIZ -->
   <div id="screen-quiz" class="screen">
     <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progress-fill"></div></div>
     <p class="progress-label" id="progress-label"></p>
@@ -160,7 +143,6 @@
     </div>
   </div>
 
-  <!-- RESULT -->
   <div id="screen-result" class="screen">
     <div id="result-band-wrap"></div>
     <div id="ore-card-wrap"></div>
@@ -168,7 +150,6 @@
     <div class="cta-block" id="cta-wrap"></div>
   </div>
 
-  <!-- LEAD FORM -->
   <div id="screen-lead" class="screen">
     <p class="form-title">Ricevi il report completo</p>
     <p class="form-sub">Inserisci i tuoi dati per ricevere la stima dettagliata delle ore perse e un confronto con i benchmark di settore.</p>
@@ -181,14 +162,13 @@
     <button class="btn btn-ghost" onclick="showScreen('screen-result')">← Torna ai risultati</button>
   </div>
 
-  <!-- THANK YOU -->
   <div id="screen-thankyou" class="screen">
     <div class="ty-icon">
       <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M5 13l6 6 10-10" stroke="#1A6B4A" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
     <h1 style="font-size:24px; margin-bottom: 0.5rem;">Ottimo, ci siamo!</h1>
     <p class="subtitle" style="margin-bottom: 2rem;">Ti abbiamo inviato il report via email. Nel frattempo, prenota una chiamata di 15 minuti con il nostro team per analizzare insieme i risultati.</p>
-    <a href="https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015" target="_blank" rel="noopener" class="btn btn-calendly btn-full">Prenota il tuo slot gratuito →</a>
+    <a href="https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015" target="_blank" rel="noopener" class="btn btn-primary btn-full">Prenota il tuo slot gratuito →</a>
     <div class="divider"></div>
     <p style="font-size:13px; color: var(--text-hint); text-align:center;">Nessun impegno. Solo 15 minuti per capire dove puoi recuperare ore ogni mese.</p>
   </div>
@@ -265,9 +245,9 @@ const QUESTIONS = [
 ];
 
 const INTERVENTI_OPTIONS = [
-  { label: "Fino a 50 interventi/mese",     value: 50  },
-  { label: "Tra 50 e 100 interventi/mese",  value: 100 },
-  { label: "Oltre 100 interventi/mese",     value: 150 }
+  { label: "Fino a 50 interventi/mese",    value: 50  },
+  { label: "Tra 50 e 100 interventi/mese", value: 100 },
+  { label: "Oltre 100 interventi/mese",    value: 150 }
 ];
 
 const TECNICI_OPTIONS = [
@@ -276,13 +256,11 @@ const TECNICI_OPTIONS = [
   { label: "Oltre 15 tecnici",  value: 20 }
 ];
 
-let currentQ    = 0;
-let answers     = new Array(QUESTIONS.length).fill(null);
-let interventi  = null;
-let tecnici     = null;
-let tecniciExact    = null;
-let interventiExact = null;
+const HUBSPOT_URL = "https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015";
 
+let currentQ = 0;
+let answers = new Array(QUESTIONS.length).fill(null);
+let interventi = null, tecnici = null, tecniciExact = null, interventiExact = null;
 const TOTAL_STEPS = 2 + QUESTIONS.length;
 
 function showScreen(id) {
@@ -294,10 +272,7 @@ function showScreen(id) {
 function startQuiz() {
   currentQ = 0;
   answers = new Array(QUESTIONS.length).fill(null);
-  interventi = null;
-  tecnici = null;
-  tecniciExact = null;
-  interventiExact = null;
+  interventi = null; tecnici = null; tecniciExact = null; interventiExact = null;
   renderQuestion();
   showScreen('screen-quiz');
 }
@@ -309,86 +284,60 @@ function renderQuestion() {
   document.getElementById('btn-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
 
   let html = '';
-
   if (currentQ === 0) {
-    const sel = tecnici;
-    const exVal = tecniciExact !== null ? tecniciExact : '';
+    const sel = tecnici, exVal = tecniciExact !== null ? tecniciExact : '';
     html = `
       <p class="q-number">Profilo aziendale</p>
       <p class="q-text">Quanti tecnici avete attualmente operativi sul campo?</p>
       <p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p>
-      <div class="options">
-        ${TECNICI_OPTIONS.map((opt, i) => `
-          <button class="option ${sel === i ? 'selected' : ''}" onclick="selectTecnici(${i})">
-            <span class="option-dot"></span>
-            <span class="option-text">${opt.label}</span>
-          </button>
-        `).join('')}
-      </div>
+      <div class="options">${TECNICI_OPTIONS.map((opt, i) => `
+        <button class="option ${sel === i ? 'selected' : ''}" onclick="selectTecnici(${i})">
+          <span class="option-dot"></span><span class="option-text">${opt.label}</span>
+        </button>`).join('')}</div>
       <div style="margin-top:-4px;margin-bottom:1.5rem;">
         <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
         <div style="display:flex;gap:8px;align-items:center;">
-          <input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7"
-            value="${exVal}"
+          <input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="${exVal}"
             style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
             oninput="setTecniciExact(this.value)" />
           <span style="font-size:13px;color:var(--text-muted);">tecnici</span>
           <button id="btn-confirm-tecnici" onclick="confirmTecnici()"
-            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">
-            Conferma →
-          </button>
+            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button>
         </div>
       </div>`;
   } else if (currentQ === 1) {
-    const sel = interventi;
-    const exVal = interventiExact !== null ? interventiExact : '';
+    const sel = interventi, exVal = interventiExact !== null ? interventiExact : '';
     html = `
       <p class="q-number">Profilo operativo</p>
       <p class="q-text">Qual è la media complessiva di interventi che gestite in un mese?</p>
       <p class="q-context">Considera tutti gli interventi dell'intera struttura: manutenzioni ordinarie, emergenze e verifiche.</p>
-      <div class="options">
-        ${INTERVENTI_OPTIONS.map((opt, i) => `
-          <button class="option ${sel === i ? 'selected' : ''}" onclick="selectInterventi(${i})">
-            <span class="option-dot"></span>
-            <span class="option-text">${opt.label}</span>
-          </button>
-        `).join('')}
-      </div>
+      <div class="options">${INTERVENTI_OPTIONS.map((opt, i) => `
+        <button class="option ${sel === i ? 'selected' : ''}" onclick="selectInterventi(${i})">
+          <span class="option-dot"></span><span class="option-text">${opt.label}</span>
+        </button>`).join('')}</div>
       <div style="margin-top:-4px;margin-bottom:1.5rem;">
         <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
         <div style="display:flex;gap:8px;align-items:center;">
-          <input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 632"
-            value="${exVal}"
+          <input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 75" value="${exVal}"
             style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
             oninput="setInterventiExact(this.value)" />
           <span style="font-size:13px;color:var(--text-muted);">interventi/mese</span>
           <button id="btn-confirm-interventi" onclick="confirmInterventi()"
-            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">
-            Conferma →
-          </button>
+            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button>
         </div>
       </div>`;
   } else {
-    const qi = currentQ - 2;
-    const q = QUESTIONS[qi];
-    const selected = answers[qi];
+    const qi = currentQ - 2, q = QUESTIONS[qi], selected = answers[qi];
     html = `
       <p class="q-number">Area: ${q.area}</p>
       <p class="q-text">${q.text}</p>
       <p class="q-context">${q.context}</p>
-      <div class="options">
-        ${q.options.map((opt, i) => `
-          <button class="option ${selected === i ? 'selected' : ''}" onclick="selectOption(${i})">
-            <span class="option-dot"></span>
-            <span class="option-text">
-              ${opt.text}
-              <br><span class="option-badge ${opt.badgeClass}">${opt.badge}</span>
-            </span>
-          </button>
-        `).join('')}
-      </div>`;
+      <div class="options">${q.options.map((opt, i) => `
+        <button class="option ${selected === i ? 'selected' : ''}" onclick="selectOption(${i})">
+          <span class="option-dot"></span>
+          <span class="option-text">${opt.text}<br><span class="option-badge ${opt.badgeClass}">${opt.badge}</span></span>
+        </button>`).join('')}</div>`;
   }
-
   document.getElementById('question-wrap').innerHTML = html;
 }
 
@@ -396,12 +345,8 @@ function setTecniciExact(val) {
   const n = parseInt(val);
   tecniciExact = (!isNaN(n) && n > 0) ? n : null;
   if (tecniciExact !== null) {
-    if (tecniciExact <= 5) tecnici = 0;
-    else if (tecniciExact <= 10) tecnici = 1;
-    else tecnici = 2;
-    document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
-      el.classList.toggle('selected', i === tecnici);
-    });
+    tecnici = tecniciExact <= 5 ? 0 : tecniciExact <= 10 ? 1 : 2;
+    document.querySelectorAll('#question-wrap .option').forEach((el, i) => el.classList.toggle('selected', i === tecnici));
   }
   const btn = document.getElementById('btn-confirm-tecnici');
   if (btn) btn.style.display = tecniciExact !== null ? 'inline-flex' : 'none';
@@ -411,86 +356,50 @@ function setInterventiExact(val) {
   const n = parseInt(val);
   interventiExact = (!isNaN(n) && n > 0) ? n : null;
   if (interventiExact !== null) {
-    if (interventiExact <= 50) interventi = 0;
-    else if (interventiExact <= 100) interventi = 1;
-    else interventi = 2;
-    document.querySelectorAll('#question-wrap .option').forEach((el, i) => {
-      el.classList.toggle('selected', i === interventi);
-    });
+    interventi = interventiExact <= 50 ? 0 : interventiExact <= 100 ? 1 : 2;
+    document.querySelectorAll('#question-wrap .option').forEach((el, i) => el.classList.toggle('selected', i === interventi));
   }
   const btn = document.getElementById('btn-confirm-interventi');
   if (btn) btn.style.display = interventiExact !== null ? 'inline-flex' : 'none';
 }
 
-function confirmTecnici() {
-  if (tecniciExact === null) return;
-  currentQ = 1;
-  renderQuestion();
-}
-
-function confirmInterventi() {
-  if (interventiExact === null) return;
-  currentQ = 2;
-  renderQuestion();
-}
+function confirmTecnici() { if (tecniciExact !== null) { currentQ = 1; renderQuestion(); } }
+function confirmInterventi() { if (interventiExact !== null) { currentQ = 2; renderQuestion(); } }
 
 function selectTecnici(i) {
-  tecnici = i;
-  tecniciExact = null;
-  renderQuestion();
+  tecnici = i; tecniciExact = null; renderQuestion();
   setTimeout(() => { currentQ = 1; renderQuestion(); }, 380);
 }
-
 function selectInterventi(i) {
-  interventi = i;
-  interventiExact = null;
-  renderQuestion();
+  interventi = i; interventiExact = null; renderQuestion();
   setTimeout(() => { currentQ = 2; renderQuestion(); }, 380);
 }
-
 function selectOption(i) {
-  const qi = currentQ - 2;
-  answers[qi] = i;
-  renderQuestion();
+  answers[currentQ - 2] = i; renderQuestion();
   setTimeout(() => {
-    if (currentQ < TOTAL_STEPS - 1) {
-      currentQ++;
-      renderQuestion();
-    } else {
-      showResult();
-    }
+    if (currentQ < TOTAL_STEPS - 1) { currentQ++; renderQuestion(); }
+    else { showResult(); }
   }, 380);
 }
-
-function prevQuestion() {
-  if (currentQ > 0) { currentQ--; renderQuestion(); }
-}
+function prevQuestion() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
 
 function calcScore() {
-  return answers.reduce((sum, ans, i) => {
-    if (ans === null) return sum;
-    return sum + QUESTIONS[i].options[ans].points;
-  }, 0);
+  return answers.reduce((s, a, i) => a === null ? s : s + QUESTIONS[i].options[a].points, 0);
 }
 
 function calcOre() {
-  const intPerMese = interventiExact !== null ? interventiExact :
-                     (interventi !== null ? INTERVENTI_OPTIONS[interventi].value : 100);
-  const nTecnici   = tecniciExact !== null ? tecniciExact :
-                     (tecnici !== null ? TECNICI_OPTIONS[tecnici].value : 5);
-
+  const intPerMese = interventiExact ?? (interventi !== null ? INTERVENTI_OPTIONS[interventi].value : 50);
+  const nTecnici   = tecniciExact   ?? (tecnici   !== null ? TECNICI_OPTIONS[tecnici].value   : 5);
   let oreTotali = 0;
   const dettaglio = [];
-
   QUESTIONS.forEach((q, i) => {
     const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
     const mult = pts === 20 ? 1.0 : pts === 10 ? 0.5 : 0;
-    const fraction = q.int_fraction !== undefined ? q.int_fraction : 0;
-    const ore = (q.ore_fisse + intPerMese * fraction * q.ore_per_int) * mult;
+    const frac = q.int_fraction ?? 0;
+    const ore = (q.ore_fisse + intPerMese * frac * q.ore_per_int) * mult;
     oreTotali += ore;
-    if (ore > 0) dettaglio.push({ area: q.area, ore: ore });
+    if (ore > 0) dettaglio.push({ area: q.area, ore });
   });
-
   const orePerTecnico = nTecnici > 0 ? oreTotali / nTecnici : oreTotali;
   return { oreTotali: Math.round(oreTotali), orePerTecnico: Math.round(orePerTecnico), dettaglio, intPerMese, nTecnici };
 }
@@ -505,21 +414,16 @@ function showResult() {
       <p class="result-label">⚠ Fascia critica</p>
       <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
       <p class="result-desc">La gestione frammentata di scadenze, emergenze e ricambi sta generando colli di bottiglia significativi su ${intPerMese} interventi al mese con ${nTecnici} tecnici.</p>
-    </div>
-  ` : `
+    </div>` : `
     <div class="result-band virtuous">
       <p class="result-label">✓ Fascia virtuosa</p>
       <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
       <p class="result-desc">I tuoi processi sul campo e in ufficio sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p>
-    </div>
-  `;
+    </div>`;
 
   if (oreTotali > 0) {
-    const dettaglioRows = dettaglio
-      .sort((a, b) => b.ore - a.ore)
-      .map(d => `<div class="ore-detail-row"><span>${d.area}</span><span>~ ${Math.round(d.ore)} h/mese</span></div>`)
-      .join('');
-
+    const dettaglioRows = dettaglio.sort((a,b) => b.ore - a.ore)
+      .map(d => `<div class="ore-detail-row"><span>${d.area}</span><span>~ ${Math.round(d.ore)} h/mese</span></div>`).join('');
     document.getElementById('ore-card-wrap').innerHTML = `
       <div class="ore-card">
         <p class="ore-card-title">Stima ore perse</p>
@@ -555,8 +459,7 @@ function showResult() {
           <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-hint);margin-bottom:8px;">Per area</div>
           ${dettaglioRows}
         </div>
-      </div>
-    `;
+      </div>`;
   } else {
     document.getElementById('ore-card-wrap').innerHTML = '';
   }
@@ -569,19 +472,159 @@ function showResult() {
   }).join('');
   document.getElementById('breakdown-wrap').innerHTML = `<p class="breakdown-title">Dettaglio per area</p>${breakdownRows}`;
 
-  document.getElementById('cta-wrap').innerHTML = isCritical ? `
-    <h2>Vuoi capire quanto puoi recuperare?</h2>
-    <p>Confrontiamo il tuo score con i benchmark del settore e ti mostriamo in 15 minuti come altri service ascensoristici hanno ridotto il lavoro manuale del 60%.</p>
-    <button class="btn btn-primary btn-full" onclick="showScreen('screen-lead')">Prenota un confronto gratuito →</button>
-    <div class="divider"></div>
-    <button class="btn btn-ghost btn-full" onclick="showScreen('screen-lead')">Ricevi il report dettagliato via email</button>
-  ` : `
-    <h2>Vuoi ottimizzare ulteriormente?</h2>
-    <p>Se vorrete integrare questi flussi direttamente nella contabilità del vostro ERP, siamo a disposizione per una chiacchierata.</p>
-    <button class="btn btn-outline btn-full" onclick="showScreen('screen-lead')">Contattaci →</button>
-  `;
+  document.getElementById('cta-wrap').innerHTML = `
+    <h2>${isCritical ? 'Cosa vuoi fare adesso?' : 'Vuoi ottimizzare ulteriormente?'}</h2>
+    <p>${isCritical
+      ? 'Confrontiamo il tuo score con i benchmark del settore e ti mostriamo in 15 minuti come altri service ascensoristici hanno ridotto il lavoro manuale del 60%.'
+      : 'Se vuoi approfondire o integrare questi flussi con il tuo ERP, siamo a disposizione per una chiacchierata.'
+    }</p>
+    <div class="cta-buttons">
+      <a href="${HUBSPOT_URL}" target="_blank" rel="noopener" class="btn btn-primary btn-full">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M2 6h12" stroke="currentColor" stroke-width="1.6"/><path d="M6 3V2M10 3V2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        Prenota un confronto gratuito
+      </a>
+      <button class="btn btn-outline btn-full" onclick="generatePDF()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5h5M5.5 11.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        Scarica il report PDF
+      </button>
+    </div>`;
 
   showScreen('screen-result');
+}
+
+// ─── GENERAZIONE PDF ────────────────────────────────────────────────────────
+function generatePDF() {
+  const score = calcScore();
+  const isCritical = score >= 30;
+  const { oreTotali, orePerTecnico, dettaglio, intPerMese, nTecnici } = calcOre();
+
+  const fasciaColor  = isCritical ? '#C0392B' : '#1A6B4A';
+  const fasciaBg     = isCritical ? '#FDECEA' : '#E6F5EF';
+  const fasciaLabel  = isCritical ? '⚠ Fascia critica' : '✓ Fascia virtuosa';
+
+  const areaRows = QUESTIONS.map((q, i) => {
+    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
+    const color = pts === 20 ? '#C0392B' : pts === 10 ? '#8A5A00' : '#1A6B4A';
+    const bg    = pts === 20 ? '#FDECEA' : pts === 10 ? '#FFF8E6' : '#E6F5EF';
+    const label = pts === 20 ? 'Critico' : pts === 10 ? 'Parziale' : 'Ottimale';
+    const ans   = answers[i] !== null ? q.options[answers[i]].text.substring(0, 80) + '…' : '—';
+    return `<tr>
+      <td style="padding:8px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">${q.area}</td>
+      <td style="padding:8px 10px;border-bottom:1px solid #eee;font-size:11px;color:#666;">${ans}</td>
+      <td style="padding:8px 10px;border-bottom:1px solid #eee;text-align:center;">
+        <span style="background:${bg};color:${color};font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">${label}</span>
+      </td>
+    </tr>`;
+  }).join('');
+
+  const oreRows = dettaglio.sort((a,b) => b.ore - a.ore)
+    .map(d => `<tr>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">${d.area}</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:600;color:#1A4A8A;text-align:right;">~ ${Math.round(d.ore)} h/mese</td>
+      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:600;color:#C0392B;text-align:right;">~ ${Math.round(d.ore) * 12} h/anno</td>
+    </tr>`).join('');
+
+  const html = `
+  <div style="font-family:'Helvetica Neue',Arial,sans-serif;color:#1A1A18;max-width:700px;margin:0 auto;padding:40px 32px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid #1A4A8A;">
+      <div style="width:40px;height:40px;background:#1A4A8A;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:12px;">
+        <div style="width:10px;height:24px;background:white;border-radius:2px;margin-right:4px;opacity:0.9;"></div>
+        <div style="width:10px;height:18px;background:white;border-radius:2px;opacity:0.6;"></div>
+      </div>
+      <div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1A4A8A;">Benchmark Manutenzione</div>
+        <div style="font-size:11px;color:#9C9B96;">Report generato il ${new Date().toLocaleDateString('it-IT')}</div>
+      </div>
+      <div style="margin-left:auto;text-align:right;">
+        <div style="font-size:11px;color:#9C9B96;">${nTecnici} tecnici · ${intPerMese} interventi/mese</div>
+      </div>
+    </div>
+
+    <!-- Score -->
+    <div style="background:${fasciaBg};border-radius:12px;padding:24px;margin-bottom:24px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${fasciaColor};margin-bottom:6px;">${fasciaLabel}</div>
+      <div style="font-size:56px;font-weight:800;color:${fasciaColor};line-height:1;">${score}<span style="font-size:20px;font-weight:500;color:#666;"> / 120</span></div>
+      <div style="font-size:13px;color:#444;margin-top:8px;line-height:1.5;">
+        ${isCritical
+          ? `La gestione frammentata sta generando inefficienze significative su ${intPerMese} interventi/mese.`
+          : `I processi aziendali sono sopra la media del settore ascensoristico.`}
+      </div>
+    </div>
+
+    <!-- Ore perse -->
+    ${oreTotali > 0 ? `
+    <div style="margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Stima ore perse</div>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+        <div style="background:#F0EEE9;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#1A4A8A;">${oreTotali}</div>
+          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/mese<br>totali</div>
+        </div>
+        <div style="background:#F0EEE9;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#1A4A8A;">${orePerTecnico}</div>
+          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/mese<br>per tecnico</div>
+        </div>
+        <div style="background:#FDECEA;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#C0392B;">${oreTotali * 12}</div>
+          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/<b>anno</b><br>totali</div>
+        </div>
+        <div style="background:#FDECEA;border-radius:10px;padding:14px;text-align:center;">
+          <div style="font-size:26px;font-weight:800;color:#C0392B;">${orePerTecnico * 12}</div>
+          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/<b>anno</b><br>per tecnico</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dettaglio ore per area -->
+    <div style="margin-bottom:24px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Dettaglio ore perse per area</div>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr>
+          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Area</th>
+          <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Ore/mese</th>
+          <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Ore/anno</th>
+        </tr></thead>
+        <tbody>${oreRows}</tbody>
+      </table>
+    </div>` : ''}
+
+    <!-- Dettaglio risposte -->
+    <div style="margin-bottom:32px;">
+      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Valutazione per area</div>
+      <table style="width:100%;border-collapse:collapse;">
+        <thead><tr>
+          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;width:28%;">Area</th>
+          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Situazione attuale</th>
+          <th style="text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;width:80px;">Stato</th>
+        </tr></thead>
+        <tbody>${areaRows}</tbody>
+      </table>
+    </div>
+
+    <!-- Footer -->
+    <div style="border-top:1px solid #eee;padding-top:16px;display:flex;justify-content:space-between;align-items:center;">
+      <div style="font-size:10px;color:#9C9B96;">Benchmark Manutenzione · Service Ascensoristico</div>
+      <div style="font-size:10px;color:#1A4A8A;font-weight:600;">azeta.it</div>
+    </div>
+  </div>`;
+
+  const opt = {
+    margin: 0,
+    filename: 'benchmark-manutenzione.pdf',
+    image: { type: 'jpeg', quality: 0.95 },
+    html2canvas: { scale: 2, useCORS: true },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  const container = document.createElement('div');
+  container.innerHTML = html;
+  document.body.appendChild(container);
+
+  html2pdf().set(opt).from(container).save().then(() => {
+    document.body.removeChild(container);
+  });
 }
 
 function submitLead() {
@@ -590,18 +633,9 @@ function submitLead() {
   const company = document.getElementById('lead-company').value.trim();
   if (!name || !email || !company) { alert('Compila tutti i campi per continuare.'); return; }
   if (!email.includes('@')) { alert('Inserisci un indirizzo email valido.'); return; }
-
   const score = calcScore();
   const { oreTotali, orePerTecnico } = calcOre();
-  const payload = {
-    name, email, company, score, oreTotali, orePerTecnico,
-    oreTotaliAnno: oreTotali * 12, orePerTecnicoAnno: orePerTecnico * 12,
-    interventi: interventi !== null ? INTERVENTI_OPTIONS[interventi].label : null,
-    tecnici: tecnici !== null ? TECNICI_OPTIONS[tecnici].label : null,
-    answers: answers.map((a, i) => ({ area: QUESTIONS[i].area, points: a !== null ? QUESTIONS[i].options[a].points : null }))
-  };
-  console.log('Lead payload:', JSON.stringify(payload));
-
+  console.log('Lead:', JSON.stringify({ name, email, company, score, oreTotali, orePerTecnico, oreTotaliAnno: oreTotali*12, orePerTecnicoAnno: orePerTecnico*12 }));
   showScreen('screen-thankyou');
 }
 </script>
