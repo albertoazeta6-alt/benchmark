@@ -176,72 +176,12 @@
 </div>
 <script>
 const QUESTIONS = [
-  {
-    area: "Scadenze normative (DPR 162/99)",
-    text: "Come gestite le scadenze delle manutenzioni periodiche?",
-    context: "Una scadenza mancata espone l'azienda a sanzioni e responsabilità civile.",
-    ore_fisse: 2.5, ore_per_int: 0,
-    options: [
-      { text: "Excel o scadenziari cartacei: la segreteria incrocia i dati a mano e chiama i tecnici per incastrare gli appuntamenti.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "Abbiamo un software, ma la pianificazione e l'invio ai tecnici richiedono passaggi manuali in ufficio.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "Tutto automatizzato: il sistema genera le pianificazioni, le invia all'app del tecnico e l'ufficio monitora in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  },
-  {
-    area: "Gestione delle emergenze",
-    text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?",
-    context: "Ogni emergenza mal gestita costa in media 45–90 minuti di riorganizzazione.",
-    ore_fisse: 0, ore_per_int: 0.75, int_fraction: 0.15,
-    options: [
-      { text: "Chiamiamo i tecnici uno a uno per capire chi è più vicino e riorganizziamo a voce o su WhatsApp.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "Inseriamo l'emergenza e il software riassegna l'intervento al tecnico più idoneo, aggiornando l'app istantaneamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  },
-  {
-    area: "Preventivazione riparazioni",
-    text: "Quando un tecnico rileva un componente usurato, come viene gestito il preventivo di riparazione al cliente?",
-    context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.",
-    ore_fisse: 0, ore_per_int: 0.42, int_fraction: 0.20,
-    options: [
-      { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perché i sistemi non si parlano.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "La segnalazione del tecnico genera automaticamente una bozza di preventivo in ufficio, pronta in poche ore.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  },
-  {
-    area: "Gestione ricambi e magazzino",
-    text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?",
-    context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.",
-    ore_fisse: 0, ore_per_int: 0.083, int_fraction: 0.40,
-    options: [
-      { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "I tecnici inseriscono il ricambio dall'app, ma non c'è integrazione reale con il magazzino/ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "Tutto integrato: quando il tecnico seleziona il pezzo dal campo, il magazzino si aggiorna automaticamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  },
-  {
-    area: "Checklist e procedure",
-    text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?",
-    context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.",
-    ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0,
-    options: [
-      { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica (es. 'eseguita manutenzione').", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "Procedure guidate e bloccanti: l'app mostra la checklist specifica per tipo di impianto con foto obbligatorie.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  },
-  {
-    area: "Sincronizzazione rapportini",
-    text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?",
-    context: "La reinserzione manuale dei dati è la prima causa di errori in fatturazione.",
-    ore_fisse: 0, ore_per_int: 0.133, int_fraction: 1.0,
-    options: [
-      { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 },
-      { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 },
-      { text: "Sincronizzazione immediata: appena tecnico e cliente firmano, l'ufficio vede il rapportino aggiornato in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 }
-    ]
-  }
+  { area: "Scadenze normative (DPR 162/99)", text: "Come gestite le scadenze delle manutenzioni periodiche?", context: "Una scadenza mancata espone l'azienda a sanzioni e responsabilità civile.", ore_fisse: 2.5, ore_per_int: 0, options: [ { text: "Excel o scadenziari cartacei: la segreteria incrocia i dati a mano e chiama i tecnici per incastrare gli appuntamenti.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "Abbiamo un software, ma la pianificazione e l'invio ai tecnici richiedono passaggi manuali in ufficio.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "Tutto automatizzato: il sistema genera le pianificazioni, le invia all'app del tecnico e l'ufficio monitora in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] },
+  { area: "Gestione delle emergenze", text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?", context: "Ogni emergenza mal gestita costa in media 45–90 minuti di riorganizzazione.", ore_fisse: 0, ore_per_int: 0.75, int_fraction: 0.15, options: [ { text: "Chiamiamo i tecnici uno a uno per capire chi è più vicino e riorganizziamo a voce o su WhatsApp.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "Inseriamo l'emergenza e il software riassegna l'intervento al tecnico più idoneo, aggiornando l'app istantaneamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] },
+  { area: "Preventivazione riparazioni", text: "Quando un tecnico rileva un componente usurato, come viene gestito il preventivo di riparazione al cliente?", context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.", ore_fisse: 0, ore_per_int: 0.42, int_fraction: 0.20, options: [ { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perché i sistemi non si parlano.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "La segnalazione del tecnico genera automaticamente una bozza di preventivo in ufficio, pronta in poche ore.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] },
+  { area: "Gestione ricambi e magazzino", text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?", context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.", ore_fisse: 0, ore_per_int: 0.083, int_fraction: 0.40, options: [ { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "I tecnici inseriscono il ricambio dall'app, ma non c'è integrazione reale con il magazzino/ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "Tutto integrato: quando il tecnico seleziona il pezzo dal campo, il magazzino si aggiorna automaticamente.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] },
+  { area: "Checklist e procedure", text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?", context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.", ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0, options: [ { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica (es. 'eseguita manutenzione').", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "Procedure guidate e bloccanti: l'app mostra la checklist specifica per tipo di impianto con foto obbligatorie.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] },
+  { area: "Sincronizzazione rapportini", text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?", context: "La reinserzione manuale dei dati è la prima causa di errori in fatturazione.", ore_fisse: 0, ore_per_int: 0.133, int_fraction: 1.0, options: [ { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", badge: "Alto rischio", badgeClass: "badge-high", points: 20 }, { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", badge: "Parzialmente risolto", badgeClass: "badge-mid", points: 10 }, { text: "Sincronizzazione immediata: appena tecnico e cliente firmano, l'ufficio vede il rapportino aggiornato in tempo reale.", badge: "Ottimale", badgeClass: "badge-ok", points: 0 } ] }
 ];
 
 const INTERVENTI_OPTIONS = [
@@ -249,17 +189,14 @@ const INTERVENTI_OPTIONS = [
   { label: "Tra 50 e 100 interventi/mese", value: 100 },
   { label: "Oltre 100 interventi/mese",    value: 150 }
 ];
-
 const TECNICI_OPTIONS = [
   { label: "Fino a 5 tecnici",  value: 5  },
   { label: "Da 6 a 10 tecnici", value: 10 },
   { label: "Oltre 15 tecnici",  value: 20 }
 ];
-
 const HUBSPOT_URL = "https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015";
 
-let currentQ = 0;
-let answers = new Array(QUESTIONS.length).fill(null);
+let currentQ = 0, answers = new Array(QUESTIONS.length).fill(null);
 let interventi = null, tecnici = null, tecniciExact = null, interventiExact = null;
 const TOTAL_STEPS = 2 + QUESTIONS.length;
 
@@ -268,374 +205,219 @@ function showScreen(id) {
   document.getElementById(id).classList.add('active');
   window.scrollTo(0, 0);
 }
-
 function startQuiz() {
-  currentQ = 0;
-  answers = new Array(QUESTIONS.length).fill(null);
+  currentQ = 0; answers = new Array(QUESTIONS.length).fill(null);
   interventi = null; tecnici = null; tecniciExact = null; interventiExact = null;
-  renderQuestion();
-  showScreen('screen-quiz');
+  renderQuestion(); showScreen('screen-quiz');
 }
-
 function renderQuestion() {
   const pct = Math.round((currentQ / TOTAL_STEPS) * 100);
   document.getElementById('progress-fill').style.width = pct + '%';
   document.getElementById('progress-label').textContent = `Domanda ${currentQ + 1} di ${TOTAL_STEPS}`;
   document.getElementById('btn-back').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
-
   let html = '';
   if (currentQ === 0) {
     const sel = tecnici, exVal = tecniciExact !== null ? tecniciExact : '';
-    html = `
-      <p class="q-number">Profilo aziendale</p>
-      <p class="q-text">Quanti tecnici avete attualmente operativi sul campo?</p>
-      <p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p>
-      <div class="options">${TECNICI_OPTIONS.map((opt, i) => `
-        <button class="option ${sel === i ? 'selected' : ''}" onclick="selectTecnici(${i})">
-          <span class="option-dot"></span><span class="option-text">${opt.label}</span>
-        </button>`).join('')}</div>
-      <div style="margin-top:-4px;margin-bottom:1.5rem;">
-        <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="${exVal}"
-            style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
-            oninput="setTecniciExact(this.value)" />
-          <span style="font-size:13px;color:var(--text-muted);">tecnici</span>
-          <button id="btn-confirm-tecnici" onclick="confirmTecnici()"
-            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button>
-        </div>
-      </div>`;
+    html = `<p class="q-number">Profilo aziendale</p><p class="q-text">Quanti tecnici avete attualmente operativi sul campo?</p><p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p><div class="options">${TECNICI_OPTIONS.map((opt, i) => `<button class="option ${sel===i?'selected':''}" onclick="selectTecnici(${i})"><span class="option-dot"></span><span class="option-text">${opt.label}</span></button>`).join('')}</div><div style="margin-top:-4px;margin-bottom:1.5rem;"><label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label><div style="display:flex;gap:8px;align-items:center;"><input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="${exVal}" style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setTecniciExact(this.value)" /><span style="font-size:13px;color:var(--text-muted);">tecnici</span><button id="btn-confirm-tecnici" onclick="confirmTecnici()" style="display:${exVal!==''?'inline-flex':'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button></div></div>`;
   } else if (currentQ === 1) {
     const sel = interventi, exVal = interventiExact !== null ? interventiExact : '';
-    html = `
-      <p class="q-number">Profilo operativo</p>
-      <p class="q-text">Qual è la media complessiva di interventi che gestite in un mese?</p>
-      <p class="q-context">Considera tutti gli interventi dell'intera struttura: manutenzioni ordinarie, emergenze e verifiche.</p>
-      <div class="options">${INTERVENTI_OPTIONS.map((opt, i) => `
-        <button class="option ${sel === i ? 'selected' : ''}" onclick="selectInterventi(${i})">
-          <span class="option-dot"></span><span class="option-text">${opt.label}</span>
-        </button>`).join('')}</div>
-      <div style="margin-top:-4px;margin-bottom:1.5rem;">
-        <label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 75" value="${exVal}"
-            style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;"
-            oninput="setInterventiExact(this.value)" />
-          <span style="font-size:13px;color:var(--text-muted);">interventi/mese</span>
-          <button id="btn-confirm-interventi" onclick="confirmInterventi()"
-            style="display:${exVal !== '' ? 'inline-flex' : 'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button>
-        </div>
-      </div>`;
+    html = `<p class="q-number">Profilo operativo</p><p class="q-text">Qual è la media complessiva di interventi che gestite in un mese?</p><p class="q-context">Considera tutti gli interventi dell'intera struttura: manutenzioni ordinarie, emergenze e verifiche.</p><div class="options">${INTERVENTI_OPTIONS.map((opt, i) => `<button class="option ${sel===i?'selected':''}" onclick="selectInterventi(${i})"><span class="option-dot"></span><span class="option-text">${opt.label}</span></button>`).join('')}</div><div style="margin-top:-4px;margin-bottom:1.5rem;"><label style="display:block;font-size:12px;font-weight:500;color:var(--text-hint);margin-bottom:6px;">Oppure inserisci il numero esatto</label><div style="display:flex;gap:8px;align-items:center;"><input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 75" value="${exVal}" style="width:120px;padding:9px 12px;border:1px solid var(--border-strong);border-radius:var(--radius);font-size:15px;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setInterventiExact(this.value)" /><span style="font-size:13px;color:var(--text-muted);">interventi/mese</span><button id="btn-confirm-interventi" onclick="confirmInterventi()" style="display:${exVal!==''?'inline-flex':'none'};align-items:center;gap:6px;padding:9px 16px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;">Conferma →</button></div></div>`;
   } else {
-    const qi = currentQ - 2, q = QUESTIONS[qi], selected = answers[qi];
-    html = `
-      <p class="q-number">Area: ${q.area}</p>
-      <p class="q-text">${q.text}</p>
-      <p class="q-context">${q.context}</p>
-      <div class="options">${q.options.map((opt, i) => `
-        <button class="option ${selected === i ? 'selected' : ''}" onclick="selectOption(${i})">
-          <span class="option-dot"></span>
-          <span class="option-text">${opt.text}<br><span class="option-badge ${opt.badgeClass}">${opt.badge}</span></span>
-        </button>`).join('')}</div>`;
+    const qi = currentQ-2, q = QUESTIONS[qi], selected = answers[qi];
+    html = `<p class="q-number">Area: ${q.area}</p><p class="q-text">${q.text}</p><p class="q-context">${q.context}</p><div class="options">${q.options.map((opt,i) => `<button class="option ${selected===i?'selected':''}" onclick="selectOption(${i})"><span class="option-dot"></span><span class="option-text">${opt.text}<br><span class="option-badge ${opt.badgeClass}">${opt.badge}</span></span></button>`).join('')}</div>`;
   }
   document.getElementById('question-wrap').innerHTML = html;
 }
-
 function setTecniciExact(val) {
-  const n = parseInt(val);
-  tecniciExact = (!isNaN(n) && n > 0) ? n : null;
-  if (tecniciExact !== null) {
-    tecnici = tecniciExact <= 5 ? 0 : tecniciExact <= 10 ? 1 : 2;
-    document.querySelectorAll('#question-wrap .option').forEach((el, i) => el.classList.toggle('selected', i === tecnici));
-  }
-  const btn = document.getElementById('btn-confirm-tecnici');
-  if (btn) btn.style.display = tecniciExact !== null ? 'inline-flex' : 'none';
+  const n = parseInt(val); tecniciExact = (!isNaN(n)&&n>0)?n:null;
+  if (tecniciExact!==null) { tecnici=tecniciExact<=5?0:tecniciExact<=10?1:2; document.querySelectorAll('#question-wrap .option').forEach((el,i)=>el.classList.toggle('selected',i===tecnici)); }
+  const btn=document.getElementById('btn-confirm-tecnici'); if(btn) btn.style.display=tecniciExact!==null?'inline-flex':'none';
 }
-
 function setInterventiExact(val) {
-  const n = parseInt(val);
-  interventiExact = (!isNaN(n) && n > 0) ? n : null;
-  if (interventiExact !== null) {
-    interventi = interventiExact <= 50 ? 0 : interventiExact <= 100 ? 1 : 2;
-    document.querySelectorAll('#question-wrap .option').forEach((el, i) => el.classList.toggle('selected', i === interventi));
-  }
-  const btn = document.getElementById('btn-confirm-interventi');
-  if (btn) btn.style.display = interventiExact !== null ? 'inline-flex' : 'none';
+  const n=parseInt(val); interventiExact=(!isNaN(n)&&n>0)?n:null;
+  if(interventiExact!==null) { interventi=interventiExact<=50?0:interventiExact<=100?1:2; document.querySelectorAll('#question-wrap .option').forEach((el,i)=>el.classList.toggle('selected',i===interventi)); }
+  const btn=document.getElementById('btn-confirm-interventi'); if(btn) btn.style.display=interventiExact!==null?'inline-flex':'none';
 }
-
-function confirmTecnici() { if (tecniciExact !== null) { currentQ = 1; renderQuestion(); } }
-function confirmInterventi() { if (interventiExact !== null) { currentQ = 2; renderQuestion(); } }
-
-function selectTecnici(i) {
-  tecnici = i; tecniciExact = null; renderQuestion();
-  setTimeout(() => { currentQ = 1; renderQuestion(); }, 380);
-}
-function selectInterventi(i) {
-  interventi = i; interventiExact = null; renderQuestion();
-  setTimeout(() => { currentQ = 2; renderQuestion(); }, 380);
-}
-function selectOption(i) {
-  answers[currentQ - 2] = i; renderQuestion();
-  setTimeout(() => {
-    if (currentQ < TOTAL_STEPS - 1) { currentQ++; renderQuestion(); }
-    else { showResult(); }
-  }, 380);
-}
-function prevQuestion() { if (currentQ > 0) { currentQ--; renderQuestion(); } }
-
-function calcScore() {
-  return answers.reduce((s, a, i) => a === null ? s : s + QUESTIONS[i].options[a].points, 0);
-}
-
+function confirmTecnici() { if(tecniciExact!==null){currentQ=1;renderQuestion();} }
+function confirmInterventi() { if(interventiExact!==null){currentQ=2;renderQuestion();} }
+function selectTecnici(i) { tecnici=i;tecniciExact=null;renderQuestion();setTimeout(()=>{currentQ=1;renderQuestion();},380); }
+function selectInterventi(i) { interventi=i;interventiExact=null;renderQuestion();setTimeout(()=>{currentQ=2;renderQuestion();},380); }
+function selectOption(i) { answers[currentQ-2]=i;renderQuestion();setTimeout(()=>{if(currentQ<TOTAL_STEPS-1){currentQ++;renderQuestion();}else{showResult();}},380); }
+function prevQuestion() { if(currentQ>0){currentQ--;renderQuestion();} }
+function calcScore() { return answers.reduce((s,a,i)=>a===null?s:s+QUESTIONS[i].options[a].points,0); }
 function calcOre() {
-  const intPerMese = interventiExact ?? (interventi !== null ? INTERVENTI_OPTIONS[interventi].value : 50);
-  const nTecnici   = tecniciExact   ?? (tecnici   !== null ? TECNICI_OPTIONS[tecnici].value   : 5);
-  let oreTotali = 0;
-  const dettaglio = [];
-  QUESTIONS.forEach((q, i) => {
-    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
-    const mult = pts === 20 ? 1.0 : pts === 10 ? 0.5 : 0;
-    const frac = q.int_fraction ?? 0;
-    const ore = (q.ore_fisse + intPerMese * frac * q.ore_per_int) * mult;
-    oreTotali += ore;
-    if (ore > 0) dettaglio.push({ area: q.area, ore });
+  const intPerMese=interventiExact??(interventi!==null?INTERVENTI_OPTIONS[interventi].value:50);
+  const nTecnici=tecniciExact??(tecnici!==null?TECNICI_OPTIONS[tecnici].value:5);
+  let oreTotali=0; const dettaglio=[];
+  QUESTIONS.forEach((q,i)=>{
+    const pts=answers[i]!==null?q.options[answers[i]].points:0;
+    const mult=pts===20?1.0:pts===10?0.5:0;
+    const frac=q.int_fraction??0;
+    const ore=(q.ore_fisse+intPerMese*frac*q.ore_per_int)*mult;
+    oreTotali+=ore; if(ore>0) dettaglio.push({area:q.area,ore});
   });
-  const orePerTecnico = nTecnici > 0 ? oreTotali / nTecnici : oreTotali;
-  return { oreTotali: Math.round(oreTotali), orePerTecnico: Math.round(orePerTecnico), dettaglio, intPerMese, nTecnici };
+  const orePerTecnico=nTecnici>0?oreTotali/nTecnici:oreTotali;
+  return {oreTotali:Math.round(oreTotali),orePerTecnico:Math.round(orePerTecnico),dettaglio,intPerMese,nTecnici};
 }
 
 function showResult() {
-  const score = calcScore();
-  const isCritical = score >= 30;
-  const { oreTotali, orePerTecnico, dettaglio, intPerMese, nTecnici } = calcOre();
-
-  document.getElementById('result-band-wrap').innerHTML = isCritical ? `
-    <div class="result-band critical">
-      <p class="result-label">⚠ Fascia critica</p>
-      <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
-      <p class="result-desc">La gestione frammentata di scadenze, emergenze e ricambi sta generando colli di bottiglia significativi su ${intPerMese} interventi al mese con ${nTecnici} tecnici.</p>
-    </div>` : `
-    <div class="result-band virtuous">
-      <p class="result-label">✓ Fascia virtuosa</p>
-      <p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p>
-      <p class="result-desc">I tuoi processi sul campo e in ufficio sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p>
-    </div>`;
-
-  if (oreTotali > 0) {
-    const dettaglioRows = dettaglio.sort((a,b) => b.ore - a.ore)
-      .map(d => `<div class="ore-detail-row"><span>${d.area}</span><span>~ ${Math.round(d.ore)} h/mese</span></div>`).join('');
-    document.getElementById('ore-card-wrap').innerHTML = `
-      <div class="ore-card">
-        <p class="ore-card-title">Stima ore perse</p>
-        <div style="display:flex;gap:10px;margin-bottom:16px;">
-          <div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:20px;font-weight:700;color:var(--accent);">${nTecnici}</span>
-            <span style="font-size:12px;color:var(--text-muted);line-height:1.3;">tecnici<br>operativi</span>
-          </div>
-          <div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;">
-            <span style="font-size:20px;font-weight:700;color:var(--accent);">${intPerMese}</span>
-            <span style="font-size:12px;color:var(--text-muted);line-height:1.3;">interventi<br>medi/mese</span>
-          </div>
-        </div>
-        <div class="ore-grid">
-          <div class="ore-stat">
-            <span class="ore-stat-num">${oreTotali}</span>
-            <span class="ore-stat-label">ore totali/mese<br>sull'intera struttura</span>
-          </div>
-          <div class="ore-stat">
-            <span class="ore-stat-num">${orePerTecnico}</span>
-            <span class="ore-stat-label">ore/mese<br>per tecnico</span>
-          </div>
-          <div class="ore-stat" style="background:var(--danger-light);">
-            <span class="ore-stat-num" style="color:var(--danger);">${oreTotali * 12}</span>
-            <span class="ore-stat-label">ore totali/<b>anno</b><br>sull'intera struttura</span>
-          </div>
-          <div class="ore-stat" style="background:var(--danger-light);">
-            <span class="ore-stat-num" style="color:var(--danger);">${orePerTecnico * 12}</span>
-            <span class="ore-stat-label">ore/<b>anno</b><br>per tecnico</span>
-          </div>
-        </div>
-        <div class="ore-detail">
-          <div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-hint);margin-bottom:8px;">Per area</div>
-          ${dettaglioRows}
-        </div>
-      </div>`;
-  } else {
-    document.getElementById('ore-card-wrap').innerHTML = '';
-  }
-
-  const breakdownRows = QUESTIONS.map((q, i) => {
-    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
-    const pillClass = pts === 20 ? 'pill-20' : pts === 10 ? 'pill-10' : 'pill-0';
-    const pillLabel = pts === 20 ? '−20 pt' : pts === 10 ? '−10 pt' : 'ok';
-    return `<div class="breakdown-item"><span class="breakdown-area">${q.area}</span><span class="breakdown-pill ${pillClass}">${pillLabel}</span></div>`;
-  }).join('');
-  document.getElementById('breakdown-wrap').innerHTML = `<p class="breakdown-title">Dettaglio per area</p>${breakdownRows}`;
-
-  document.getElementById('cta-wrap').innerHTML = `
-    <h2>${isCritical ? 'Cosa vuoi fare adesso?' : 'Vuoi ottimizzare ulteriormente?'}</h2>
-    <p>${isCritical
-      ? 'Confrontiamo il tuo score con i benchmark del settore e ti mostriamo in 15 minuti come altri service ascensoristici hanno ridotto il lavoro manuale del 60%.'
-      : 'Se vuoi approfondire o integrare questi flussi con il tuo ERP, siamo a disposizione per una chiacchierata.'
-    }</p>
-    <div class="cta-buttons">
-      <a href="${HUBSPOT_URL}" target="_blank" rel="noopener" class="btn btn-primary btn-full">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M2 6h12" stroke="currentColor" stroke-width="1.6"/><path d="M6 3V2M10 3V2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-        Prenota un confronto gratuito
-      </a>
-      <button class="btn btn-outline btn-full" onclick="generatePDF()">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5h5M5.5 11.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-        Scarica il report PDF
-      </button>
-    </div>`;
-
+  const score=calcScore(), isCritical=score>=30;
+  const {oreTotali,orePerTecnico,dettaglio,intPerMese,nTecnici}=calcOre();
+  document.getElementById('result-band-wrap').innerHTML=isCritical?`<div class="result-band critical"><p class="result-label">⚠ Fascia critica</p><p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p><p class="result-desc">La gestione frammentata sta generando inefficienze significative su ${intPerMese} interventi/mese con ${nTecnici} tecnici.</p></div>`:`<div class="result-band virtuous"><p class="result-label">✓ Fascia virtuosa</p><p class="result-score">${score}<span style="font-size:20px;font-weight:500"> / 120</span></p><p class="result-desc">I tuoi processi sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p></div>`;
+  if(oreTotali>0){
+    const dettaglioRows=dettaglio.sort((a,b)=>b.ore-a.ore).map(d=>`<div class="ore-detail-row"><span>${d.area}</span><span>~ ${Math.round(d.ore)} h/mese</span></div>`).join('');
+    document.getElementById('ore-card-wrap').innerHTML=`<div class="ore-card"><p class="ore-card-title">Stima ore perse</p><div style="display:flex;gap:10px;margin-bottom:16px;"><div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;color:var(--accent);">${nTecnici}</span><span style="font-size:12px;color:var(--text-muted);line-height:1.3;">tecnici<br>operativi</span></div><div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;color:var(--accent);">${intPerMese}</span><span style="font-size:12px;color:var(--text-muted);line-height:1.3;">interventi<br>medi/mese</span></div></div><div class="ore-grid"><div class="ore-stat"><span class="ore-stat-num">${oreTotali}</span><span class="ore-stat-label">ore perse/mese<br>sull'intera struttura</span></div><div class="ore-stat"><span class="ore-stat-num">${orePerTecnico}</span><span class="ore-stat-label">ore perse/mese<br>per tecnico</span></div><div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">${oreTotali*12}</span><span class="ore-stat-label">ore perse/<b>anno</b><br>sull'intera struttura</span></div><div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">${orePerTecnico*12}</span><span class="ore-stat-label">ore perse/<b>anno</b><br>per tecnico</span></div></div><div class="ore-detail"><div style="font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.05em;color:var(--text-hint);margin-bottom:8px;">Per area</div>${dettaglioRows}</div></div>`;
+  } else { document.getElementById('ore-card-wrap').innerHTML=''; }
+  const breakdownRows=QUESTIONS.map((q,i)=>{const pts=answers[i]!==null?q.options[answers[i]].points:0;const pc=pts===20?'pill-20':pts===10?'pill-10':'pill-0';const pl=pts===20?'−20 pt':pts===10?'−10 pt':'ok';return `<div class="breakdown-item"><span class="breakdown-area">${q.area}</span><span class="breakdown-pill ${pc}">${pl}</span></div>`;}).join('');
+  document.getElementById('breakdown-wrap').innerHTML=`<p class="breakdown-title">Dettaglio per area</p>${breakdownRows}`;
+  document.getElementById('cta-wrap').innerHTML=`<h2>${isCritical?'Cosa vuoi fare adesso?':'Vuoi ottimizzare ulteriormente?'}</h2><p>${isCritical?'Se vuoi approfondire possiamo aiutarti a interpretare i dati e capire come altre aziende del settore hanno ridotto il lavoro manuale dell'85% ed efficientato il loro service.':'Se vuoi approfondire o integrare questi flussi con il tuo ERP, siamo a disposizione.'}</p><div class="cta-buttons"><a href="${HUBSPOT_URL}" target="_blank" rel="noopener" class="btn btn-primary btn-full"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><rect x="2" y="3" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M2 6h12" stroke="currentColor" stroke-width="1.6"/><path d="M6 3V2M10 3V2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>Prenota un confronto gratuito</a><button class="btn btn-outline btn-full" onclick="generatePDF()"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 2h6l3 3v9a1 1 0 01-1 1H4a1 1 0 01-1-1V3a1 1 0 011-1z" stroke="currentColor" stroke-width="1.6"/><path d="M10 2v3h3" stroke="currentColor" stroke-width="1.4"/><path d="M5.5 9.5h5M5.5 11.5h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Scarica il report PDF</button></div>`;
   showScreen('screen-result');
 }
 
-// ─── GENERAZIONE PDF ────────────────────────────────────────────────────────
+// ─── PDF con layout a tabelle (nessun flex/grid → compatibile html2canvas) ──
 function generatePDF() {
-  const score = calcScore();
-  const isCritical = score >= 30;
-  const { oreTotali, orePerTecnico, dettaglio, intPerMese, nTecnici } = calcOre();
+  const score=calcScore(), isCritical=score>=30;
+  const {oreTotali,orePerTecnico,dettaglio,intPerMese,nTecnici}=calcOre();
+  const fasciaColor=isCritical?'#C0392B':'#1A6B4A';
+  const fasciaBg=isCritical?'#FDECEA':'#E6F5EF';
+  const fasciaLabel=isCritical?'&#9888; FASCIA CRITICA':'&#10003; FASCIA VIRTUOSA';
 
-  const fasciaColor  = isCritical ? '#C0392B' : '#1A6B4A';
-  const fasciaBg     = isCritical ? '#FDECEA' : '#E6F5EF';
-  const fasciaLabel  = isCritical ? '⚠ Fascia critica' : '✓ Fascia virtuosa';
+  const oreRows=dettaglio.sort((a,b)=>b.ore-a.ore).map(d=>`
+    <tr>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">${d.area}</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:700;color:#1A4A8A;text-align:right;">~ ${Math.round(d.ore)} h/mese</td>
+      <td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:700;color:#C0392B;text-align:right;">~ ${Math.round(d.ore)*12} h/anno</td>
+    </tr>`).join('');
 
-  const areaRows = QUESTIONS.map((q, i) => {
-    const pts = answers[i] !== null ? q.options[answers[i]].points : 0;
-    const color = pts === 20 ? '#C0392B' : pts === 10 ? '#8A5A00' : '#1A6B4A';
-    const bg    = pts === 20 ? '#FDECEA' : pts === 10 ? '#FFF8E6' : '#E6F5EF';
-    const label = pts === 20 ? 'Critico' : pts === 10 ? 'Parziale' : 'Ottimale';
-    const ans   = answers[i] !== null ? q.options[answers[i]].text.substring(0, 80) + '…' : '—';
-    return `<tr>
-      <td style="padding:8px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">${q.area}</td>
+  const areaRows=QUESTIONS.map((q,i)=>{
+    const pts=answers[i]!==null?q.options[answers[i]].points:0;
+    const color=pts===20?'#C0392B':pts===10?'#8A5A00':'#1A6B4A';
+    const bg=pts===20?'#FDECEA':pts===10?'#FFF8E6':'#E6F5EF';
+    const label=pts===20?'Critico':pts===10?'Parziale':'Ottimale';
+    const ans=answers[i]!==null?q.options[answers[i]].text.substring(0,90)+'…':'—';
+    return `<tr style="page-break-inside:avoid;">
+      <td style="padding:8px 10px;border-bottom:1px solid #eee;font-size:11px;font-weight:600;color:#444;width:24%;">${q.area}</td>
       <td style="padding:8px 10px;border-bottom:1px solid #eee;font-size:11px;color:#666;">${ans}</td>
-      <td style="padding:8px 10px;border-bottom:1px solid #eee;text-align:center;">
-        <span style="background:${bg};color:${color};font-size:10px;font-weight:700;padding:2px 8px;border-radius:4px;">${label}</span>
-      </td>
+      <td style="padding:8px 10px;border-bottom:1px solid #eee;text-align:center;width:70px;"><span style="background:${bg};color:${color};font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;display:inline-block;">${label}</span></td>
     </tr>`;
   }).join('');
 
-  const oreRows = dettaglio.sort((a,b) => b.ore - a.ore)
-    .map(d => `<tr>
-      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">${d.area}</td>
-      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:600;color:#1A4A8A;text-align:right;">~ ${Math.round(d.ore)} h/mese</td>
-      <td style="padding:6px 10px;border-bottom:1px solid #eee;font-size:12px;font-weight:600;color:#C0392B;text-align:right;">~ ${Math.round(d.ore) * 12} h/anno</td>
-    </tr>`).join('');
+  const html=`<div style="font-family:Arial,Helvetica,sans-serif;color:#1A1A18;width:750px;padding:32px 40px;background:#fff;">
 
-  const html = `
-  <div style="font-family:'Helvetica Neue',Arial,sans-serif;color:#1A1A18;max-width:700px;margin:0 auto;padding:40px 32px;">
+    <!-- HEADER -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:24px;border-bottom:2px solid #1A4A8A;padding-bottom:16px;">
+      <tr>
+        <td style="width:48px;vertical-align:middle;">
+          <div style="width:40px;height:40px;background:#1A4A8A;border-radius:8px;overflow:hidden;">
+            <table width="40" height="40" cellpadding="0" cellspacing="0"><tr><td align="center" valign="middle">
+              <div style="display:inline-block;width:8px;height:22px;background:white;border-radius:2px;margin-right:3px;opacity:0.9;vertical-align:middle;"></div><div style="display:inline-block;width:8px;height:16px;background:white;border-radius:2px;opacity:0.6;vertical-align:middle;"></div>
+            </td></tr></table>
+          </div>
+        </td>
+        <td style="vertical-align:middle;padding-left:12px;">
+          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1A4A8A;">Benchmark Manutenzione</div>
+          <div style="font-size:11px;color:#9C9B96;margin-top:2px;">Report generato il ${new Date().toLocaleDateString('it-IT')}</div>
+        </td>
+        <td style="text-align:right;vertical-align:middle;">
+          <div style="font-size:11px;color:#9C9B96;">${nTecnici} tecnici &middot; ${intPerMese} interventi/mese</div>
+        </td>
+      </tr>
+    </table>
 
-    <!-- Header -->
-    <div style="display:flex;align-items:center;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid #1A4A8A;">
-      <div style="width:40px;height:40px;background:#1A4A8A;border-radius:8px;display:flex;align-items:center;justify-content:center;margin-right:12px;">
-        <div style="width:10px;height:24px;background:white;border-radius:2px;margin-right:4px;opacity:0.9;"></div>
-        <div style="width:10px;height:18px;background:white;border-radius:2px;opacity:0.6;"></div>
-      </div>
-      <div>
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1A4A8A;">Benchmark Manutenzione</div>
-        <div style="font-size:11px;color:#9C9B96;">Report generato il ${new Date().toLocaleDateString('it-IT')}</div>
-      </div>
-      <div style="margin-left:auto;text-align:right;">
-        <div style="font-size:11px;color:#9C9B96;">${nTecnici} tecnici · ${intPerMese} interventi/mese</div>
-      </div>
+    <!-- SCORE -->
+    <div style="background:${fasciaBg};border-radius:10px;padding:22px 24px;margin-bottom:22px;">
+      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:${fasciaColor};margin-bottom:6px;">${fasciaLabel}</div>
+      <div style="font-size:52px;font-weight:900;color:${fasciaColor};line-height:1;">${score}<span style="font-size:18px;font-weight:500;color:#888;"> / 120</span></div>
+      <div style="font-size:13px;color:#444;margin-top:8px;line-height:1.5;">${isCritical?`La gestione frammentata sta generando inefficienze significative su ${intPerMese} interventi/mese.`:`I processi aziendali sono sopra la media del settore ascensoristico.`}</div>
     </div>
 
-    <!-- Score -->
-    <div style="background:${fasciaBg};border-radius:12px;padding:24px;margin-bottom:24px;">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:${fasciaColor};margin-bottom:6px;">${fasciaLabel}</div>
-      <div style="font-size:56px;font-weight:800;color:${fasciaColor};line-height:1;">${score}<span style="font-size:20px;font-weight:500;color:#666;"> / 120</span></div>
-      <div style="font-size:13px;color:#444;margin-top:8px;line-height:1.5;">
-        ${isCritical
-          ? `La gestione frammentata sta generando inefficienze significative su ${intPerMese} interventi/mese.`
-          : `I processi aziendali sono sopra la media del settore ascensoristico.`}
-      </div>
-    </div>
+    ${oreTotali>0?`
+    <!-- STATS ORE -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Stima ore perse</div>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:22px;">
+      <tr>
+        <td width="25%" style="padding-right:8px;">
+          <div style="background:#F0EEE9;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:28px;font-weight:900;color:#1A4A8A;line-height:1;">${oreTotali}</div>
+            <div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore/mese<br>totali</div>
+          </div>
+        </td>
+        <td width="25%" style="padding-right:8px;">
+          <div style="background:#F0EEE9;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:28px;font-weight:900;color:#1A4A8A;line-height:1;">${orePerTecnico}</div>
+            <div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore/mese<br>per tecnico</div>
+          </div>
+        </td>
+        <td width="25%" style="padding-right:8px;">
+          <div style="background:#FDECEA;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:28px;font-weight:900;color:#C0392B;line-height:1;">${oreTotali*12}</div>
+            <div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore/<b>anno</b><br>totali</div>
+          </div>
+        </td>
+        <td width="25%">
+          <div style="background:#FDECEA;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:28px;font-weight:900;color:#C0392B;line-height:1;">${orePerTecnico*12}</div>
+            <div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore/<b>anno</b><br>per tecnico</div>
+          </div>
+        </td>
+      </tr>
+    </table>
 
-    <!-- Ore perse -->
-    ${oreTotali > 0 ? `
-    <div style="margin-bottom:24px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Stima ore perse</div>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
-        <div style="background:#F0EEE9;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#1A4A8A;">${oreTotali}</div>
-          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/mese<br>totali</div>
-        </div>
-        <div style="background:#F0EEE9;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#1A4A8A;">${orePerTecnico}</div>
-          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/mese<br>per tecnico</div>
-        </div>
-        <div style="background:#FDECEA;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#C0392B;">${oreTotali * 12}</div>
-          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/<b>anno</b><br>totali</div>
-        </div>
-        <div style="background:#FDECEA;border-radius:10px;padding:14px;text-align:center;">
-          <div style="font-size:26px;font-weight:800;color:#C0392B;">${orePerTecnico * 12}</div>
-          <div style="font-size:10px;color:#6B6A65;line-height:1.3;margin-top:4px;">ore/<b>anno</b><br>per tecnico</div>
-        </div>
-      </div>
-    </div>
+    <!-- TABELLA ORE PER AREA -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Dettaglio ore perse per area</div>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:22px;border-collapse:collapse;">
+      <thead><tr style="background:#F7F6F3;">
+        <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;">Area</th>
+        <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;">Ore/mese</th>
+        <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;">Ore/anno</th>
+      </tr></thead>
+      <tbody>${oreRows}</tbody>
+    </table>`:''}
 
-    <!-- Dettaglio ore per area -->
-    <div style="margin-bottom:24px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Dettaglio ore perse per area</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr>
-          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Area</th>
-          <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Ore/mese</th>
-          <th style="text-align:right;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Ore/anno</th>
-        </tr></thead>
-        <tbody>${oreRows}</tbody>
-      </table>
-    </div>` : ''}
+    <!-- TABELLA VALUTAZIONE -->
+    <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Valutazione per area</div>
+    <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:28px;border-collapse:collapse;">
+      <thead><tr style="background:#F7F6F3;">
+        <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;width:24%;">Area</th>
+        <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;">Situazione attuale</th>
+        <th style="text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:7px 10px;border-bottom:2px solid #ddd;width:70px;">Stato</th>
+      </tr></thead>
+      <tbody>${areaRows}</tbody>
+    </table>
 
-    <!-- Dettaglio risposte -->
-    <div style="margin-bottom:32px;">
-      <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:12px;">Valutazione per area</div>
-      <table style="width:100%;border-collapse:collapse;">
-        <thead><tr>
-          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;width:28%;">Area</th>
-          <th style="text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;">Situazione attuale</th>
-          <th style="text-align:center;font-size:10px;font-weight:600;text-transform:uppercase;color:#9C9B96;padding:6px 10px;border-bottom:2px solid #eee;width:80px;">Stato</th>
-        </tr></thead>
-        <tbody>${areaRows}</tbody>
-      </table>
-    </div>
+    <!-- FOOTER -->
+    <table width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #eee;padding-top:14px;">
+      <tr>
+        <td style="font-size:10px;color:#9C9B96;">Benchmark Manutenzione &middot; Service Ascensoristico</td>
+        <td style="text-align:right;font-size:10px;color:#1A4A8A;font-weight:600;">azeta.it</td>
+      </tr>
+    </table>
 
-    <!-- Footer -->
-    <div style="border-top:1px solid #eee;padding-top:16px;display:flex;justify-content:space-between;align-items:center;">
-      <div style="font-size:10px;color:#9C9B96;">Benchmark Manutenzione · Service Ascensoristico</div>
-      <div style="font-size:10px;color:#1A4A8A;font-weight:600;">azeta.it</div>
-    </div>
   </div>`;
-
-  const opt = {
-    margin: 0,
-    filename: 'benchmark-manutenzione.pdf',
-    image: { type: 'jpeg', quality: 0.95 },
-    html2canvas: { scale: 2, useCORS: true },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-  };
 
   const container = document.createElement('div');
   container.innerHTML = html;
+  // Posiziona off-screen per evitare spazi bianchi da scroll position
+  container.style.cssText = 'position:fixed;top:0;left:-9999px;width:750px;z-index:-9999;background:#fff;';
   document.body.appendChild(container);
 
-  html2pdf().set(opt).from(container).save().then(() => {
+  html2pdf().set({
+    margin: [10, 10, 10, 10],
+    filename: 'benchmark-manutenzione.pdf',
+    image: { type: 'jpeg', quality: 0.97 },
+    html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, windowWidth: 750 },
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  }).from(container).save().then(() => {
     document.body.removeChild(container);
   });
 }
 
 function submitLead() {
-  const name    = document.getElementById('lead-name').value.trim();
-  const email   = document.getElementById('lead-email').value.trim();
-  const company = document.getElementById('lead-company').value.trim();
-  if (!name || !email || !company) { alert('Compila tutti i campi per continuare.'); return; }
-  if (!email.includes('@')) { alert('Inserisci un indirizzo email valido.'); return; }
-  const score = calcScore();
-  const { oreTotali, orePerTecnico } = calcOre();
-  console.log('Lead:', JSON.stringify({ name, email, company, score, oreTotali, orePerTecnico, oreTotaliAnno: oreTotali*12, orePerTecnicoAnno: orePerTecnico*12 }));
+  const name=document.getElementById('lead-name').value.trim();
+  const email=document.getElementById('lead-email').value.trim();
+  const company=document.getElementById('lead-company').value.trim();
+  if(!name||!email||!company){alert('Compila tutti i campi per continuare.');return;}
+  if(!email.includes('@')){alert('Inserisci un indirizzo email valido.');return;}
   showScreen('screen-thankyou');
 }
 </script>
