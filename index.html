@@ -32,8 +32,8 @@
   .progress-bar-fill { background: var(--accent); height: 100%; border-radius: 999px; transition: width 300ms ease; width: 0%; }
   .progress-label { font-size: 12px; color: var(--text-hint); margin-bottom: 2rem; }
   .q-number { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 0.5rem; }
-  .q-text { font-size: 19px; font-weight: 600; line-height: 1.35; color: var(--text); margin-bottom: 1.5rem; }
-  .q-context { font-size: 13px; color: var(--text-muted); background: var(--accent-light); border-left: 3px solid var(--accent-mid); border-radius: 0 6px 6px 0; padding: 8px 12px; margin-bottom: 1.5rem; line-height: 1.5; }
+  .q-text { font-size: 23px; font-weight: 600; line-height: 1.35; color: var(--text); margin-bottom: 1.5rem; }
+  .q-context { font-size: 16px; color: var(--text-muted); background: var(--accent-light); border-left: 3px solid var(--accent-mid); border-radius: 0 6px 6px 0; padding: 10px 14px; margin-bottom: 1.5rem; line-height: 1.5; }
   .options { display: flex; flex-direction: column; gap: 10px; margin-bottom: 2rem; }
   .option { background: var(--surface); border: 0.5px solid var(--border-strong); border-radius: var(--radius); padding: 14px 16px; cursor: pointer; display: flex; align-items: flex-start; gap: 12px; transition: border-color var(--transition), background var(--transition); text-align: left; width: 100%; }
   .option:hover { border-color: var(--accent-mid); background: var(--accent-light); }
@@ -41,7 +41,7 @@
   .option-dot { width: 18px; height: 18px; min-width: 18px; border-radius: 50%; border: 1.5px solid var(--border-strong); margin-top: 2px; display: flex; align-items: center; justify-content: center; transition: border-color var(--transition), background var(--transition); }
   .option.selected .option-dot { border-color: var(--accent); background: var(--accent); }
   .option.selected .option-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: white; display: block; }
-  .option-text { font-size: 14px; line-height: 1.5; color: var(--text); }
+  .option-text { font-size: 16px; line-height: 1.5; color: var(--text); }
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 28px; border-radius: var(--radius); font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: opacity var(--transition), transform var(--transition); text-decoration: none; font-family: inherit; }
   .btn:active { transform: scale(0.98); }
   .btn-primary { background: var(--accent); color: white; } .btn-primary:hover { opacity: 0.88; }
@@ -198,8 +198,8 @@ function renderQuestion() {
       + '<p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p>'
       + '<div style="margin-bottom:1.5rem;">'
       + '<div style="display:flex;gap:12px;align-items:center;">'
-      + '<input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="' + v + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:22px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setTecniciExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmTecnici()" />'
-      + '<span style="font-size:15px;color:var(--text-muted);">tecnici</span></div>'
+      + '<input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="' + v + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:23px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setTecniciExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmTecnici()" />'
+      + '<span style="font-size:18px;color:var(--text-muted);">tecnici</span></div>'
       + '<button id="btn-confirm-tecnici" onclick="confirmTecnici()" style="display:' + (v!==''?'flex':'none') + ';margin-top:16px;align-items:center;gap:8px;padding:13px 28px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
       + '</div>';
   } else if (currentQ === 1) {
@@ -209,8 +209,8 @@ function renderQuestion() {
       + '<p class="q-context">Considera tutta la struttura: manutenzioni ordinarie, emergenze e verifiche.</p>'
       + '<div style="margin-bottom:1.5rem;">'
       + '<div style="display:flex;gap:12px;align-items:center;">'
-      + '<input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 150" value="' + v2 + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:22px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setInterventiExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmInterventi()" />'
-      + '<span style="font-size:15px;color:var(--text-muted);">interventi/mese</span></div>'
+      + '<input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 150" value="' + v2 + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:23px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setInterventiExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmInterventi()" />'
+      + '<span style="font-size:18px;color:var(--text-muted);">interventi/mese</span></div>'
       + '<button id="btn-confirm-interventi" onclick="confirmInterventi()" style="display:' + (v2!==''?'flex':'none') + ';margin-top:16px;align-items:center;gap:8px;padding:13px 28px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
       + '</div>';
   } else {
