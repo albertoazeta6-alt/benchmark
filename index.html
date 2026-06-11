@@ -106,7 +106,7 @@
   <div id="screen-welcome" class="screen active">
     <p class="eyebrow">Test gratuito &middot; 90 secondi</p>
     <h1>Quanto &egrave; efficiente il tuo servizio di assistenza?</h1>
-    <p class="subtitle">Rapportini, emergenze gestite su WhatsApp, scadenze DPR sempre in bilico, magazzino che non quadra mai. Scopri in 90 secondi quante ore stai perdendo ogni mese.</p>
+    <p class="subtitle">Rapportini, emergenze gestite su WhatsApp, scadenze normative sempre in bilico, magazzino che non quadra mai. Scopri in 90 secondi quante ore stai perdendo ogni mese.</p>
     <div class="stats-row">
       <div class="stat-card"><span class="stat-num">8</span><span class="stat-label">domande</span></div>
       <div class="stat-card"><span class="stat-num">90s</span><span class="stat-label">tempo medio</span></div>
@@ -163,12 +163,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
 <script>
 var QUESTIONS = [
-  { area: "Scadenze normative (DPR 162/99)", text: "Come gestite le scadenze delle manutenzioni periodiche?", context: "Una scadenza mancata espone l'azienda a sanzioni e responsabilita' civile.", ore_fisse: 2.5, ore_per_int: 0, options: [ { text: "Excel o scadenziari cartacei: la segreteria incrocia i dati a mano e chiama i tecnici per incastrare gli appuntamenti.", points: 20 }, { text: "Abbiamo un software, ma la pianificazione e l'invio ai tecnici richiedono passaggi manuali in ufficio.", points: 10 }, { text: "Tutto automatizzato: il sistema genera le pianificazioni, le invia all'app del tecnico e l'ufficio monitora in tempo reale.", points: 0 } ] },
-  { area: "Gestione delle emergenze", text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?", context: "Ogni emergenza mal gestita costa in media 45-90 minuti di riorganizzazione.", ore_fisse: 0, ore_per_int: 0.75, int_fraction: 0.15, options: [ { text: "Chiamiamo i tecnici uno a uno per capire chi e' piu' vicino e riorganizziamo a voce o su WhatsApp.", points: 20 }, { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", points: 10 }, { text: "Inseriamo l'emergenza e il software riassegna l'intervento al tecnico piu' idoneo, aggiornando l'app istantaneamente.", points: 0 } ] },
-  { area: "Preventivazione riparazioni", text: "Quando emerge un'attività non pianificata che richiede un preventivo, come gestite la comunicazione al cliente?", context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.", ore_fisse: 0, ore_per_int: 0.42, int_fraction: 0.20, options: [ { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", points: 20 }, { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perche' i sistemi non si parlano.", points: 10 }, { text: "La segnalazione del tecnico genera automaticamente una bozza di preventivo in ufficio, pronta in poche ore.", points: 0 } ] },
-  { area: "Gestione ricambi e magazzino", text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?", context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.", ore_fisse: 0, ore_per_int: 0.083, int_fraction: 0.40, options: [ { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", points: 20 }, { text: "I tecnici inseriscono il ricambio dall'app, ma non c'e' integrazione reale con il magazzino/ERP.", points: 10 }, { text: "Tutto integrato: quando il tecnico seleziona il pezzo dal campo, il magazzino si aggiorna automaticamente.", points: 0 } ] },
-  { area: "Checklist e procedure", text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?", context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.", ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0, options: [ { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica.", points: 20 }, { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", points: 10 }, { text: "Procedure guidate e bloccanti: l'app mostra la checklist specifica per tipo di impianto con foto obbligatorie.", points: 0 } ] },
-  { area: "Sincronizzazione rapportini", text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?", context: "La reinserzione manuale dei dati e' la prima causa di errori in fatturazione.", ore_fisse: 0, ore_per_int: 0.133, int_fraction: 1.0, options: [ { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", points: 20 }, { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", points: 10 }, { text: "Sincronizzazione immediata: appena tecnico e cliente firmano, l'ufficio vede il rapportino aggiornato in tempo reale.", points: 0 } ] }
+  { area: "Scadenze normative (DPR 162/99)", tipo: "backoffice", text: "Come gestite le scadenze delle manutenzioni periodiche?", context: "Una scadenza mancata espone l'azienda a sanzioni e responsabilita' civile.", ore_fisse: 0, ore_per_int: 0.15, int_fraction: 0.50, options: [ { text: "Excel o scadenziari cartacei: la segreteria incrocia i dati a mano e chiama i tecnici per incastrare gli appuntamenti.", points: 20 }, { text: "Abbiamo un software, ma la pianificazione e l'invio ai tecnici richiedono passaggi manuali in ufficio.", points: 10 }, { text: "Tutto automatizzato: il sistema genera le pianificazioni, le invia all'app del tecnico e l'ufficio monitora in tempo reale.", points: 0 } ] },
+  { area: "Gestione delle emergenze", tipo: "tecnico", text: "Cosa succede quando arriva una chiamata urgente che stravolge il giro visite programmato di un tecnico?", context: "Pensa al vostro processo di gestione dell&#39;emergenza, quanto richiede intervento umano?", ore_fisse: 0, ore_per_int: 0.333, int_fraction: 0.20, options: [ { text: "Chiamiamo i tecnici uno a uno per capire chi e' piu' vicino e riorganizziamo a voce o su WhatsApp.", points: 20 }, { text: "Abbiamo un software, ma inserire l'imprevisto e ricalcolare il giro genera confusione sui rapportini.", points: 10 }, { text: "Inseriamo l'emergenza e il software riassegna l'intervento al tecnico piu' idoneo, aggiornando l'app istantaneamente.", points: 0 } ] },
+  { area: "Preventivazione riparazioni", tipo: "backoffice", text: "Quando emerge un'attività non pianificata che richiede un preventivo, come gestite la comunicazione al cliente?", context: "I ritardi nella preventivazione abbassano il tasso di accettazione e generano insoddisfazione.", ore_fisse: 0, ore_per_int: 0.333, int_fraction: 0.35, options: [ { text: "Il tecnico lo scrive sul rapportino cartaceo: la segreteria decifra la nota e prepara il preventivo giorni dopo.", points: 20 }, { text: "Il tecnico segnala via app, ma l'ufficio deve ricostruire il preventivo manualmente perche' i sistemi non si parlano.", points: 10 }, { text: "La segnalazione del tecnico genera automaticamente una bozza di preventivo in ufficio, pronta in poche ore.", points: 0 } ] },
+  { area: "Gestione ricambi e magazzino", tipo: "backoffice", text: "In che modo i pezzi di ricambio usati dai tecnici vengono scalati dal magazzino?", context: "Discrepanze tra scorte reali e teoriche creano fermi impianto e acquisti d'urgenza.", ore_fisse: 0, ore_per_int: 0.167, int_fraction: 0.45, options: [ { text: "Il tecnico scrive a penna: la segreteria scala manualmente a terminale a fine settimana.", points: 20 }, { text: "I tecnici inseriscono il ricambio dall'app, ma non c'e' integrazione reale con il magazzino/ERP.", points: 10 }, { text: "Tutto integrato: quando il tecnico seleziona il pezzo dal campo, il magazzino si aggiorna automaticamente.", points: 0 } ] },
+  { area: "Checklist e procedure", tipo: "tecnico", text: "In che modo i tecnici seguono le procedure di controllo sui diversi modelli di impianto?", context: "Senza checklist bloccanti, non hai prova documentale dei controlli effettuati.", ore_fisse: 0, ore_per_int: 0.10, int_fraction: 1.0, options: [ { text: "Si affidano all'esperienza: il tecnico scrive solo una riga generica.", points: 20 }, { text: "Usiamo checklist standard, ma non costringono a seguire passaggi obbligatori o scattare foto.", points: 10 }, { text: "Procedure guidate e bloccanti: l'app mostra la checklist specifica per tipo di impianto con foto obbligatorie.", points: 0 } ] },
+  { area: "Sincronizzazione rapportini", tipo: "backoffice", text: "Quando un tecnico chiude un intervento, come arrivano i dati in ufficio?", context: "Il caricamento manuale dei dati e' la prima causa di errori in fatturazione.", ore_fisse: 0, ore_per_int: 0.217, int_fraction: 1.0, options: [ { text: "Via carta o Excel: la segreteria reinterpreta e reinserisce tutto sul gestionale prima di archiviare o fatturare.", points: 20 }, { text: "Tramite app, ma i dati richiedono esportazioni o verifiche manuali per allineare l'ERP.", points: 10 }, { text: "Sincronizzazione immediata: appena tecnico e cliente firmano, l'ufficio vede il rapportino aggiornato in tempo reale.", points: 0 } ] }
 ];
 var HUBSPOT_URL = "https://meetings-eu1.hubspot.com/meetings/astillo?uuid=98dc88aa-4db0-4a60-a50e-7dc1911c2015";
 var currentQ = 0, answers = new Array(QUESTIONS.length).fill(null);
@@ -195,7 +195,7 @@ function renderQuestion() {
     var v = tecniciExact !== null ? tecniciExact : '';
     html = '<p class="q-number">Profilo aziendale &mdash; 1 di 2</p>'
       + '<p class="q-text">Quanti tecnici avete attualmente operativi sul campo?</p>'
-      + '<p class="q-context">Serve per calibrare la stima complessiva delle ore disperse ogni mese.</p>'
+      + '<p class="q-context">Considera tutte le figure che fanno attivita\' operativa in campo, anche gli esterni.</p>'
       + '<div style="margin-bottom:1.5rem;">'
       + '<div style="display:flex;gap:12px;align-items:center;">'
       + '<input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="' + v + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:23px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setTecniciExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmTecnici()" />'
@@ -244,14 +244,16 @@ function prevQuestion() { if(currentQ>0){currentQ--;renderQuestion();} }
 function calcScore() { return answers.reduce(function(s,a,i){return a===null?s:s+QUESTIONS[i].options[a].points;},0); }
 function calcOre() {
   var intPerMese = interventiExact||50, nTecnici = tecniciExact||5;
-  var oreTotali=0, dettaglio=[];
+  var oreTotali=0, oreTecnico=0, oreBackoffice=0, dettaglio=[];
   QUESTIONS.forEach(function(q,i){
     var pts=answers[i]!==null?q.options[answers[i]].points:0;
     var mult=pts===20?1.0:pts===10?0.5:0;
     var ore=(q.ore_fisse+intPerMese*(q.int_fraction||0)*q.ore_per_int)*mult;
-    oreTotali+=ore; if(ore>0) dettaglio.push({area:q.area,ore:ore});
+    oreTotali+=ore;
+    if(q.tipo==='tecnico') oreTecnico+=ore; else oreBackoffice+=ore;
+    if(ore>0) dettaglio.push({area:q.area,ore:ore});
   });
-  return {oreTotali:Math.round(oreTotali),orePerTecnico:Math.round(nTecnici>0?oreTotali/nTecnici:oreTotali),dettaglio:dettaglio,intPerMese:intPerMese,nTecnici:nTecnici};
+  return {oreTotali:Math.round(oreTotali),oreTecnico:Math.round(oreTecnico),oreBackoffice:Math.round(oreBackoffice),orePerTecnico:Math.round(nTecnici>0?oreTotali/nTecnici:oreTotali),dettaglio:dettaglio,intPerMese:intPerMese,nTecnici:nTecnici};
 }
 function showResult() {
   var score=calcScore(), isCritical=score>=30, d=calcOre();
@@ -264,12 +266,14 @@ function showResult() {
       +'<div style="display:flex;gap:10px;margin-bottom:16px;">'
       +'<div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;color:var(--accent);">'+d.nTecnici+'</span><span style="font-size:12px;color:var(--text-muted);line-height:1.3;">tecnici<br>operativi</span></div>'
       +'<div style="flex:1;background:var(--accent-light);border-radius:var(--radius);padding:10px 14px;display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;color:var(--accent);">'+d.intPerMese+'</span><span style="font-size:12px;color:var(--text-muted);line-height:1.3;">interventi<br>medi/mese</span></div>'
-      +'</div><div class="ore-grid">'
-      +'<div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">'+d.oreTotali+'</span><span class="ore-stat-label">ore perse/mese<br>struttura totale</span></div>'
-      +'<div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">'+d.orePerTecnico+'</span><span class="ore-stat-label">ore perse/mese<br>per tecnico</span></div>'
-      +'<div class="ore-stat" style="background:var(--danger-light);"><span class="ore-stat-num" style="color:var(--danger);">'+(d.oreTotali*12)+'</span><span class="ore-stat-label">ore perse/<b>anno</b><br>struttura totale</span></div>'
-      +'<div class="ore-stat" style="background:var(--danger-light);"><span class="ore-stat-num" style="color:var(--danger);">'+(d.orePerTecnico*12)+'</span><span class="ore-stat-label">ore perse/<b>anno</b><br>per tecnico</span></div>'
-      +'</div></div>';
+      +'</div>'
+      +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px;">'
+      +'<div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">'+d.oreTecnico+'</span><span class="ore-stat-label">ore perse/mese<br><b>tecnici</b></span></div>'
+      +'<div class="ore-stat" style="background:var(--warning-light);"><span class="ore-stat-num" style="color:var(--warning);">'+d.oreBackoffice+'</span><span class="ore-stat-label">ore perse/mese<br><b>backoffice</b></span></div>'
+      +'<div class="ore-stat" style="background:var(--warning-light);border:1.5px solid var(--warning);"><span class="ore-stat-num" style="color:var(--warning);">'+d.oreTotali+'</span><span class="ore-stat-label">ore perse/mese<br><b>totali</b></span></div>'
+      +'</div>'
+      +'<div class="ore-stat" style="background:var(--danger-light);text-align:center;"><span style="font-size:28px;font-weight:800;color:var(--danger);line-height:1;">'+(d.oreTotali*12)+'</span><span style="font-size:15px;font-weight:700;color:var(--danger);"> ore perse / anno</span></div>'
+      +'</div>';
   } else { document.getElementById('ore-card-wrap').innerHTML=''; }
   var oreMap={};
   d.dettaglio.forEach(function(x){oreMap[x.area]=Math.round(x.ore);});
@@ -342,10 +346,9 @@ function generatePDF() {
   var oreSection=d.oreTotali>0
     ?'<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Stima ore perse</div>'
       +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:22px;"><tr>'
-      +'<td width="25%" style="padding-right:8px;"><div style="background:#FFF8E6;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#8A5A00;line-height:1;">'+d.oreTotali+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/mese struttura</div></div></td>'
-      +'<td width="25%" style="padding-right:8px;"><div style="background:#FFF8E6;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#8A5A00;line-height:1;">'+d.orePerTecnico+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/mese per tecnico</div></div></td>'
-      +'<td width="25%" style="padding-right:8px;"><div style="background:#FDECEA;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#C0392B;line-height:1;">'+(d.oreTotali*12)+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/anno struttura</div></div></td>'
-      +'<td width="25%"><div style="background:#FDECEA;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#C0392B;line-height:1;">'+(d.orePerTecnico*12)+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/anno per tecnico</div></div></td>'
+      +'<td width="33%" style="padding-right:8px;"><div style="background:#FFF8E6;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#8A5A00;line-height:1;">'+d.oreTecnico+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/mese tecnici</div></div></td>'
+      +'<td width="33%" style="padding-right:8px;"><div style="background:#FFF8E6;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#8A5A00;line-height:1;">'+d.oreBackoffice+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/mese backoffice</div></div></td>'
+      +'<td width="34%"><div style="background:#FFF8E6;border:1.5px solid #E6A817;border-radius:8px;padding:14px;text-align:center;"><div style="font-size:26px;font-weight:900;color:#8A5A00;line-height:1;">'+d.oreTotali+'</div><div style="font-size:10px;color:#6B6A65;margin-top:4px;line-height:1.3;">ore perse/mese totali</div></div></td>'
       +'</tr></table>'
       +'<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Dettaglio ore per area</div>'
       +'<table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:22px;border-collapse:collapse;">'
@@ -379,8 +382,7 @@ function submitLead() {
   var name=document.getElementById('lead-name').value.trim();
   var email=document.getElementById('lead-email').value.trim();
   var company=document.getElementById('lead-company').value.trim();
-  if(!name||!email||!company){alert('Compila tutti i campi per continuare.');return;}
-  if(!email.includes('@')){alert('Inserisci un indirizzo email valido.');return;}
+  if(!name||!email){alert('Inserisci nome ed email per continuare.');return;}
   showScreen('screen-thankyou');
 }
 </script>
