@@ -77,6 +77,15 @@
   .ty-icon { width: 56px; height: 56px; background: var(--success-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
   .divider { height: 0.5px; background: var(--border); margin: 1.5rem 0; }
   @media (max-width: 480px) { h1 { font-size: 23px; } .result-score { font-size: 42px; } .ore-grid { grid-template-columns: 1fr; } }
+  @media (min-width: 900px) {
+    .shell { max-width: 1060px; }
+    .result-desktop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+    .result-desktop-left, .result-desktop-right { min-width: 0; }
+    .result-desktop-left .result-band { margin-bottom: 0; }
+    .result-desktop-left .ore-card { margin-bottom: 0; }
+    .result-desktop-right .breakdown { margin-bottom: 16px; }
+    .result-desktop-right .cta-block { margin-bottom: 0; }
+  }
 </style>
 </head>
 <body>
@@ -113,10 +122,16 @@
   </div>
 
   <div id="screen-result" class="screen">
-    <div id="result-band-wrap"></div>
-    <div id="ore-card-wrap"></div>
-    <div class="breakdown" id="breakdown-wrap"></div>
-    <div class="cta-block" id="cta-wrap"></div>
+    <div class="result-desktop-grid">
+      <div class="result-desktop-left">
+        <div id="result-band-wrap"></div>
+        <div id="ore-card-wrap"></div>
+      </div>
+      <div class="result-desktop-right">
+        <div class="breakdown" id="breakdown-wrap"></div>
+        <div class="cta-block" id="cta-wrap"></div>
+      </div>
+    </div>
   </div>
 
   <div id="screen-lead" class="screen">
