@@ -256,10 +256,10 @@ function showResult() {
   var oreMap={};
   d.dettaglio.forEach(function(x){oreMap[x.area]=Math.round(x.ore);});
   var NOTES={
-    "Scadenze normative (DPR 162/99)":"Pianificazione manuale espone a sanzioni e crea colli di bottiglia in segreteria.",
+    "Scadenze normative (DPR 162/99)":"La pianificazione manuale espone l'azienda a sanzioni e crea colli di bottiglia in segreteria.",
     "Gestione delle emergenze":"Ogni imprevisto riorganizzato a voce o su WhatsApp costa tempo e genera errori sui rapportini.",
     "Preventivazione riparazioni":"Il ritardo nella preventivazione riduce il tasso di accettazione e allunga i tempi di chiusura.",
-    "Gestione ricambi e magazzino":"Magazzino non allineato in tempo reale significa acquisti urgenti e fermi impianto evitabili.",
+    "Gestione ricambi e magazzino":"Il magazzino non allineato in tempo reale significa acquisti urgenti e obsolescenza dei pezzi in stock.",
     "Checklist e procedure":"Senza procedure bloccanti non hai prova documentale: rischio in caso di controllo o contenzioso.",
     "Sincronizzazione rapportini":"Ogni reinserimento manuale in ufficio moltiplica gli errori e rallenta la fatturazione."
   };
@@ -299,7 +299,7 @@ function showResult() {
   var ctaDesc=isCritical?"Se vuoi approfondire possiamo aiutarti a interpretare i dati e capire come altre aziende del settore hanno ridotto il lavoro manuale dell'85% ed efficientato il loro service.":"Se vuoi approfondire come integrare queste ottimizzazioni AI nel tuo flusso operativo, siamo a disposizione.";
   document.getElementById('cta-wrap').innerHTML='<h2>'+(isCritical?'Cosa vuoi fare adesso?':'Vuoi ottimizzare ulteriormente?')+'</h2><p>'+ctaDesc+'</p>'
     +'<div class="cta-buttons">'
-    +'<button class="btn btn-outline btn-full" onclick="generatePDF()">&#128196; Scarica il report PDF</button>'
+    
     +'<a href="'+HUBSPOT_URL+'" target="_blank" rel="noopener" class="btn btn-primary btn-full">&#128197; Prenota un confronto gratuito</a>'
     +'<a href="https://go.azeta.it/9Sabj" target="_blank" rel="noopener" class="btn btn-outline btn-full">&#9654; Guarda una video anteprima della soluzione</a>'
     +'</div>';
