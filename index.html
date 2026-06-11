@@ -57,10 +57,10 @@
   .result-score { font-size: 52px; font-weight: 800; line-height: 1; margin-bottom: 8px; }
   .critical .result-score { color: var(--danger); } .virtuous .result-score { color: var(--success); }
   .result-desc { font-size: 15px; line-height: 1.6; color: var(--text); }
-  .ore-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 1.5rem; }
+  .ore-card { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px 24px; margin-bottom: 1.5rem; display: flex; flex-direction: column; }
   .ore-card-title { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-hint); margin-bottom: 14px; }
-  .ore-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .ore-stat { background: var(--surface2); border-radius: var(--radius); padding: 14px; }
+  .ore-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 12px; flex: 1; }
+  .ore-stat { background: var(--surface2); border-radius: var(--radius); padding: 14px; display: flex; flex-direction: column; justify-content: center; }
   .ore-stat-num { font-size: 28px; font-weight: 800; color: var(--accent); display: block; line-height: 1; }
   .ore-stat-label { font-size: 12px; color: var(--text-muted); display: block; margin-top: 4px; line-height: 1.3; }
   .breakdown { background: var(--surface); border: 0.5px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 1.5rem; }
@@ -79,12 +79,15 @@
   @media (max-width: 480px) { h1 { font-size: 23px; } .result-score { font-size: 42px; } .ore-grid { grid-template-columns: 1fr; } }
   @media (min-width: 900px) {
     .shell { max-width: 1060px; }
-    .result-desktop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
-    .result-desktop-left, .result-desktop-right { min-width: 0; }
-    .result-desktop-left .result-band { margin-bottom: 0; }
-    .result-desktop-left .ore-card { margin-bottom: 0; }
-    .result-desktop-right .breakdown { margin-bottom: 16px; }
-    .result-desktop-right .cta-block { margin-bottom: 0; }
+    #screen-quiz.active { max-width: 640px; margin: 0 auto; padding-top: 12vh; }
+    #screen-welcome.active { max-width: 640px; margin: 0 auto; padding-top: 12vh; }
+    .result-desktop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: stretch; margin-bottom: 24px; }
+    .result-desktop-left, .result-desktop-right { min-width: 0; display: flex; flex-direction: column; }
+    .result-desktop-left .result-band { margin-bottom: 16px; }
+    #ore-card-wrap { flex: 1; display: flex; flex-direction: column; }
+    #ore-card-wrap .ore-card { flex: 1; margin-bottom: 0; }
+    #breakdown-wrap { flex: 1; margin-bottom: 0 !important; }
+    .result-cta-bottom { }
   }
 </style>
 </head>
@@ -129,9 +132,9 @@
       </div>
       <div class="result-desktop-right">
         <div class="breakdown" id="breakdown-wrap"></div>
-        <div class="cta-block" id="cta-wrap"></div>
       </div>
     </div>
+    <div class="cta-block result-cta-bottom" id="cta-wrap"></div>
   </div>
 
   <div id="screen-lead" class="screen">
@@ -311,8 +314,7 @@ function showResult() {
       +'<p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;">I processi core sono gi&agrave; strutturati. Il prossimo salto competitivo passa dall\'AI: queste sono le leve che le aziende pi&ugrave; avanzate stanno gi&agrave; attivando.</p>'
       + aiHtml;
   }
-  var ctaDesc=isCritical?"Se vuoi approfondire possiamo aiutarti a interpretare i dati e capire come altre aziende del settore hanno ridotto il lavoro manuale dell'85% ed efficientato il loro service.":"Se vuoi approfondire come integrare queste ottimizzazioni AI nel tuo flusso operativo, siamo a disposizione.";
-  document.getElementById('cta-wrap').innerHTML='<h2>'+(isCritical?'Cosa vuoi fare adesso?':'Vuoi ottimizzare ulteriormente?')+'</h2><p>'+ctaDesc+'</p>'
+  document.getElementById('cta-wrap').innerHTML='<h2>Vuoi capire cosa significano questi numeri per la tua realt&agrave;?</h2><p>Possiamo analizzare insieme i risultati e confrontarli con aziende simili del settore.</p>'
     +'<div class="cta-buttons">'
     
     +'<a href="'+HUBSPOT_URL+'" target="_blank" rel="noopener" class="btn btn-primary btn-full">&#128197; Prenota un confronto gratuito</a>'
