@@ -109,7 +109,7 @@
     <p class="subtitle">Rapportini, emergenze gestite su WhatsApp, scadenze normative sempre in bilico, magazzino che non quadra mai. Scopri in 90 secondi quante ore stai perdendo ogni mese.</p>
     <div class="stats-row">
       <div class="stat-card"><span class="stat-num">8</span><span class="stat-label">domande</span></div>
-      <div class="stat-card"><span class="stat-num">90s</span><span class="stat-label">tempo medio</span></div>
+      <div class="stat-card"><span class="stat-num">90</span><span class="stat-label">secondi</span></div>
       <div class="stat-card"><span class="stat-num">100%</span><span class="stat-label">gratuito</span></div>
     </div>
     <button class="btn btn-primary btn-full" onclick="startQuiz()">Inizia il test &rarr;</button>
@@ -200,7 +200,7 @@ function renderQuestion() {
       + '<div style="display:flex;gap:12px;align-items:center;">'
       + '<input type="number" id="input-tecnici" min="1" max="500" placeholder="es. 7" value="' + v + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:23px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setTecniciExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmTecnici()" />'
       + '<span style="font-size:18px;color:var(--text-muted);">tecnici</span></div>'
-      + '<button id="btn-confirm-tecnici" onclick="confirmTecnici()" style="display:flex;margin-top:16px;align-items:center;gap:8px;padding:13px 28px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
+      + '<button id="btn-confirm-tecnici" onclick="confirmTecnici()" style="display:flex;margin-top:16px;align-items:center;justify-content:center;gap:8px;padding:13px 28px;width:100%;background:' + (v!==''?'var(--accent)':'var(--text-hint)') + ';color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
       + '</div>';
   } else if (currentQ === 1) {
     var v2 = interventiExact !== null ? interventiExact : '';
@@ -211,7 +211,7 @@ function renderQuestion() {
       + '<div style="display:flex;gap:12px;align-items:center;">'
       + '<input type="number" id="input-interventi" min="1" max="9999" placeholder="es. 150" value="' + v2 + '" autofocus style="width:140px;padding:12px 16px;border:1.5px solid var(--border-strong);border-radius:var(--radius);font-size:23px;font-weight:700;font-family:inherit;background:var(--surface);color:var(--text);outline:none;" oninput="setInterventiExact(this.value)" onkeydown="if(event.key===\'Enter\')confirmInterventi()" />'
       + '<span style="font-size:18px;color:var(--text-muted);">interventi/mese</span></div>'
-      + '<button id="btn-confirm-interventi" onclick="confirmInterventi()" style="display:flex;margin-top:16px;align-items:center;gap:8px;padding:13px 28px;background:var(--accent);color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
+      + '<button id="btn-confirm-interventi" onclick="confirmInterventi()" style="display:flex;margin-top:16px;align-items:center;justify-content:center;gap:8px;padding:13px 28px;width:100%;background:' + (v2!==''?'var(--accent)':'var(--text-hint)') + ';color:white;border:none;border-radius:var(--radius);font-size:15px;font-weight:600;cursor:pointer;font-family:inherit;">Avanti &rarr;</button>'
       + '</div>';
   } else {
     var qi = currentQ-2, q = QUESTIONS[qi];
@@ -226,9 +226,13 @@ function renderQuestion() {
 }
 function setTecniciExact(val) {
   var n = parseInt(val); tecniciExact = (!isNaN(n)&&n>0)?n:null;
+  var btn = document.getElementById('btn-confirm-tecnici');
+  if (btn) btn.style.background = tecniciExact ? 'var(--accent)' : 'var(--text-hint)';
 }
 function setInterventiExact(val) {
   var n = parseInt(val); interventiExact = (!isNaN(n)&&n>0)?n:null;
+  var btn = document.getElementById('btn-confirm-interventi');
+  if (btn) btn.style.background = interventiExact ? 'var(--accent)' : 'var(--text-hint)';
 }
 function confirmTecnici() { if (tecniciExact) { currentQ=1; renderQuestion(); } }
 function confirmInterventi() { if (interventiExact) { currentQ=2; renderQuestion(); } }
