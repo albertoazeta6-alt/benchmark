@@ -256,10 +256,10 @@ function calcOre() {
   return {oreTotali:Math.round(oreTotali),oreTecnico:Math.round(oreTecnico),oreBackoffice:Math.round(oreBackoffice),orePerTecnico:Math.round(nTecnici>0?oreTotali/nTecnici:oreTotali),dettaglio:dettaglio,intPerMese:intPerMese,nTecnici:nTecnici};
 }
 function showResult() {
-  var score=calcScore(), isCritical=score>=30, d=calcOre();
+  var score=calcScore(), perf=Math.round((120-score)/120*100), isCritical=perf<75, d=calcOre();
   document.getElementById('result-band-wrap').innerHTML = isCritical
-    ? '<div class="result-band critical"><p class="result-label">&#9888; Fascia critica</p><p class="result-score">'+score+'<span style="font-size:20px;font-weight:500"> / 120</span></p><p class="result-desc">La gestione frammentata sta generando inefficienze significative su '+d.intPerMese+' interventi/mese con '+d.nTecnici+' tecnici.</p></div>'
-    : '<div class="result-band virtuous"><p class="result-label">&#10003; Fascia virtuosa</p><p class="result-score">'+score+'<span style="font-size:20px;font-weight:500"> / 120</span></p><p class="result-desc">I tuoi processi sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p></div>';
+    ? '<div class="result-band critical"><p class="result-label">&#9888; Fascia critica</p><p class="result-score">'+perf+'<span style="font-size:20px;font-weight:500"> / 100</span></p><p class="result-desc">La gestione frammentata sta generando inefficienze significative su '+d.intPerMese+' interventi/mese con '+d.nTecnici+' tecnici.</p></div>'
+    : '<div class="result-band virtuous"><p class="result-label">&#10003; Fascia virtuosa</p><p class="result-score">'+perf+'<span style="font-size:20px;font-weight:500"> / 100</span></p><p class="result-desc">I tuoi processi sono strutturati e sopra la media del settore ascensoristico. Ottimo lavoro.</p></div>';
   if (d.oreTotali>0) {
     document.getElementById('ore-card-wrap').innerHTML =
       '<div class="ore-card"><p class="ore-card-title">Stima ore perse</p>'
@@ -318,17 +318,27 @@ function showResult() {
       +'<p style="font-size:13px;color:var(--text-muted);line-height:1.6;margin-bottom:16px;">I processi core sono gi&agrave; strutturati. Il prossimo salto competitivo passa dall\'AI: queste sono le leve che le aziende pi&ugrave; avanzate stanno gi&agrave; attivando.</p>'
       + aiHtml;
   }
-  document.getElementById('cta-wrap').innerHTML='<h2>Vuoi capire cosa significano questi numeri per la tua realt&agrave;?</h2><p>Possiamo analizzare insieme i risultati e confrontarli con aziende simili del settore.</p>'
-    +'<div class="cta-buttons">'
-    
-    +'<a href="'+HUBSPOT_URL+'" target="_blank" rel="noopener" class="btn btn-primary btn-full">&#128197; Prenota un confronto gratuito</a>'
-    +'<a href="https://go.azeta.it/9Sabj" target="_blank" rel="noopener" class="btn btn-outline btn-full">&#9654; Guarda una video anteprima della soluzione</a>'
-    +'</div>';
+  if (perf === 100) {
+    document.getElementById('cta-wrap').innerHTML='<h2>Sei gi&agrave; sopra la media. Vuoi capire dove l\'AI pu&ograve; portarti?</h2><p>I tuoi processi sono strutturati e funzionano. Il prossimo salto competitivo non &egrave; correggere errori, ma amplificare ci&ograve; che gi&agrave; funziona con l\'intelligenza artificiale. Parliamone insieme.</p>'
+      +'<div class="cta-buttons">'
+      +'<a href="'+HUBSPOT_URL+'" target="_blank" rel="noopener" class="btn btn-primary btn-full">&#128161; Approfondisci con un esperto AI</a>'
+      +'<a href="https://go.azeta.it/9Sabj" target="_blank" rel="noopener" class="btn btn-outline btn-full">&#9654; Guarda una video anteprima della soluzione</a>'
+      +'</div>';
+  } else {
+    document.getElementById('cta-wrap').innerHTML='<h2>Vuoi capire cosa significano questi numeri per la tua realt&agrave;?</h2><p>Possiamo analizzare insieme i risultati e confrontarli con aziende simili del settore.</p>'
+      +'<div class="cta-buttons">'
+      +'<a href="'+HUBSPOT_URL+'" target="_blank" rel="noopener" class="btn btn-primary btn-full">&#128197; Prenota un confronto gratuito</a>'
+      +'<a href="https://go.azeta.it/9Sabj" target="_blank" rel="noopener" class="btn btn-outline btn-full">&#9654; Guarda una video anteprima della soluzione</a>'
+      +'</div>';
+  }
+  var grid = document.querySelector('.result-desktop-grid');
+  if (perf === 100 && grid) { grid.style.display='block'; grid.style.gridTemplateColumns=''; grid.style.gap=''; }
+  else if (grid) { grid.style.display=''; grid.style.gridTemplateColumns=''; grid.style.gap=''; }
   showScreen('screen-result');
 }
 function generatePDF() {
   if (typeof html2pdf==='undefined'){alert('Libreria PDF non ancora caricata, riprova tra un secondo.');return;}
-  var score=calcScore(),isCritical=score>=30,d=calcOre();
+  var score=calcScore(),perf=Math.round((120-score)/120*100),isCritical=perf<75,d=calcOre();
   var fc=isCritical?'#C0392B':'#1A6B4A',fb=isCritical?'#FDECEA':'#E6F5EF',fl=isCritical?'FASCIA CRITICA':'FASCIA VIRTUOSA';
   var oreRows=d.dettaglio.slice().sort(function(a,b){return b.ore-a.ore;}).map(function(x){
     return '<tr><td style="padding:7px 10px;border-bottom:1px solid #eee;font-size:12px;color:#444;">'+x.area+'</td>'
@@ -362,7 +372,7 @@ function generatePDF() {
     +'<td style="text-align:right;vertical-align:middle;font-size:11px;color:#9C9B96;">'+d.nTecnici+' tecnici &middot; '+d.intPerMese+' interventi/mese</td></tr></table>'
     +'<div style="background:'+fb+';border-radius:10px;padding:22px 24px;margin-bottom:22px;">'
     +'<div style="font-size:10px;font-weight:700;letter-spacing:0.1em;color:'+fc+';margin-bottom:6px;">'+fl+'</div>'
-    +'<div style="font-size:52px;font-weight:900;color:'+fc+';line-height:1;">'+score+'<span style="font-size:18px;font-weight:500;color:#888;"> / 120</span></div>'
+    +'<div style="font-size:52px;font-weight:900;color:'+fc+';line-height:1;">'+perf+'<span style="font-size:18px;font-weight:500;color:#888;"> / 100</span></div>'
     +'<div style="font-size:13px;color:#444;margin-top:8px;">'+(isCritical?'Inefficienze rilevate su '+d.intPerMese+' interventi/mese.':'Processi sopra la media del settore.')+'</div></div>'
     +oreSection
     +'<div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9C9B96;margin-bottom:10px;">Valutazione per area</div>'
